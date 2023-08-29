@@ -1,19 +1,27 @@
-import "./App.css";
-import PodcastsDataTable from "./components/PodcastsDataTable";
-import Layout from "./layouts/Layout";
+import { useEffect, useState } from "react";
+
 import { Podcast } from "./modules/podcasts/domain/Podcast";
 
+import { usePodcasts } from "./hooks/podcasts/usePodcasts";
+
+import Layout from "./layouts/Layout";
+
+import PodcastsDataTable from "./components/PodcastsDataTable";
+
+import "./App.css";
+
 function App() {
-  const podcasts: Podcast[] = [
-    {
-      id: "1",
-      title: "The Joe Rogan Experience",
-      author: "Joe Rogan",
-      description: "The podcast of Comedian Joe Rogan..",
-      episodes: [],
-      image: "",
-    },
-  ];
+  const [podcasts, setPodcasts] = useState<Podcast[] | undefined>([]);
+  const { getPodcasts } = usePodcasts();
+
+  const loadData = async () => {
+    const podcastsData = await getPodcasts();
+    setPodcasts(podcastsData);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   return (
     <Layout>

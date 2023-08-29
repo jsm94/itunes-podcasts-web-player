@@ -9,7 +9,11 @@ import {
   TableRow,
 } from "./Table";
 
-const PodcastsDataTable = ({ podcasts }: { podcasts: Podcast[] }) => {
+const PodcastsDataTable = ({
+  podcasts,
+}: {
+  podcasts: Podcast[] | undefined;
+}) => {
   return (
     <Table>
       <TableHead>
@@ -21,7 +25,7 @@ const PodcastsDataTable = ({ podcasts }: { podcasts: Podcast[] }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {podcasts.map((podcast) => (
+        {podcasts?.map((podcast) => (
           <TableRow key={podcast.id}>
             <TableData>{podcast.id}</TableData>
             <TableData>
