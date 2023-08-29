@@ -4,6 +4,11 @@ import App from "./App";
 describe("App", () => {
   it("renders App component", () => {
     render(<App />);
-    expect(screen.getByText(/podcast/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/podcast/i)).toBeInTheDocument();
+  });
+
+  it("renders a table", () => {
+    render(<App />);
+    expect(screen.getByRole("table")).toBeInTheDocument();
   });
 });

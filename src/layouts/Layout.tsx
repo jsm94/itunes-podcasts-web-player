@@ -5,11 +5,11 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
-      <header>
-        <span>podcast</span>
+      <header className="container mx-auto">
+        <input type="text" placeholder="podcast" />
       </header>
-      <main>{children}</main>
-      <footer></footer>
+      <main className="container mx-auto">{children}</main>
+      <footer>webplayer</footer>
     </div>
   );
 };
