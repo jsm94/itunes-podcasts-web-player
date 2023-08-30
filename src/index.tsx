@@ -1,23 +1,16 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
-import { SearchProvider } from "./context/SearchContext";
 
 import "./index.css";
 
 import reportWebVitals from "./reportWebVitals";
+import { withProviders } from "./router/router-provider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-root.render(
-  <React.StrictMode>
-    <SearchProvider>
-      <App />
-    </SearchProvider>
-  </React.StrictMode>
-);
+root.render(withProviders(<App />));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
