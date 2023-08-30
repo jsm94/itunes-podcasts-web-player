@@ -96,4 +96,26 @@ describe("App", () => {
       ).toBeInTheDocument();
     });
   });
+
+  it('should render a table with episodes"', async () => {
+    renderWithProviders();
+
+    const podcastName = /A History of Rock Music in 500 Songs/i;
+    let podcast: HTMLElement;
+
+    await waitFor(() => {
+      podcast = screen.getByText(podcastName);
+      expect(podcast).toBeInTheDocument();
+    });
+
+    fireEvent.click(podcast!);
+
+    await waitFor(() => {
+      expect(screen.getByRole("table")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/Bakar - Hell N Back/i)).toBeInTheDocument();
+    });
+  });
 });
