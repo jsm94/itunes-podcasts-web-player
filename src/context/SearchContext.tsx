@@ -1,9 +1,5 @@
 import { createContext, useContext, useState } from "react";
 
-export enum SearchActionTypes {
-  SET = "set",
-}
-
 const initialState: string = "";
 
 const SearchContext = createContext(initialState);
