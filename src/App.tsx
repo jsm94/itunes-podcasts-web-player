@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Podcast } from "./modules/podcasts/domain/Podcast";
 
@@ -9,23 +9,41 @@ import Layout from "./layouts/Layout";
 import PodcastsDataTable from "./components/PodcastsDataTable";
 
 import "./App.css";
+import { useSearch } from "./context/SearchContext";
 
 function App() {
-  const [podcasts, setPodcasts] = useState<Podcast[] | undefined>([]);
+  const search = useSearch();
+
+  const [filteredPodcasts, setPodcasts] = useState<Podcast[] | undefined>([]);
   const { getPodcasts } = usePodcasts();
 
+  const podcastsRef = useRef<Podcast[] | undefined>([]);
+
   const loadData = async () => {
-    const podcastsData = await getPodcasts();
-    setPodcasts(podcastsData);
+    podcastsRef.current = await getPodcasts();
+    setPodcasts(podcastsRef.current);
+  };
+
+  const filterPodcasts = (podcasts: Podcast[]) => {
+    return podcasts.filter((podcast) => {
+      return (
+        podcast.title.toLowerCase().includes(search.toLowerCase()) ||
+        podcast.author.toLowerCase().includes(search.toLowerCase())
+      );
+    });
   };
 
   useEffect(() => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    setPodcasts(filterPodcasts(podcastsRef.current!));
+  }, [search]);
+
   return (
     <Layout>
-      <PodcastsDataTable podcasts={podcasts} />
+      <PodcastsDataTable podcasts={filteredPodcasts} />
     </Layout>
   );
 }

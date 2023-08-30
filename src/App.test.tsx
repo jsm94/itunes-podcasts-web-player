@@ -1,9 +1,18 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import App from "./App";
 
+import { SearchProvider } from "./context/SearchContext";
 import { mockEpisodesListData } from "./modules/podcasts/infra/mocks/mockEpisodesListData";
 import { mockPodcastsListData } from "./modules/podcasts/infra/mocks/mockPodcastsListData";
+
+const renderWithProviders = () => {
+  return render(
+    <SearchProvider>
+      <App />
+    </SearchProvider>
+  );
+};
 
 describe("App", () => {
   beforeEach(() => {
@@ -44,6 +53,24 @@ describe("App", () => {
       expect(
         screen.getByText(/A History of Rock Music in 500 Songs/i)
       ).toBeInTheDocument();
+    });
+  });
+
+  it('when user types "test" on searchbar doesnt render any podcast', async () => {
+    renderWithProviders();
+    const input = screen.getByPlaceholderText(/podcast/i);
+    await waitFor(() => {
+      expect(input).toBeInTheDocument();
+    });
+
+    fireEvent.change(input, {
+      target: { value: "test" },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/A History of Rock Music in 500 Songs/i)
+      ).not.toBeInTheDocument();
     });
   });
 });
