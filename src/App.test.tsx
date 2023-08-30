@@ -1,24 +1,27 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-import App from "./App";
-
-import { SearchProvider } from "./context/SearchContext";
 import { mockEpisodesListData } from "./modules/podcasts/infra/mocks/mockEpisodesListData";
 import { mockPodcastsListData } from "./modules/podcasts/infra/mocks/mockPodcastsListData";
 
+import { SearchProvider } from "./context/SearchContext";
+
+import { withProviders } from "./router/router-provider";
+
+import App from "./App";
+
 const renderWithProviders = () => {
   return render(
-    <SearchProvider>
-      <App />
-    </SearchProvider>
+    withProviders(
+      <SearchProvider>
+        <App />
+      </SearchProvider>
+    )
   );
 };
 
 describe("App", () => {
   beforeEach(() => {
-    console.log("beforeAll");
     global.fetch = jest.fn((url) => {
-      console.log(url);
       if (
         url ===
         "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json"
@@ -34,21 +37,21 @@ describe("App", () => {
   });
 
   it("renders App component", async () => {
-    render(<App />);
+    renderWithProviders();
     await waitFor(() => {
       expect(screen.getByPlaceholderText(/podcast/i)).toBeInTheDocument();
     });
   });
 
   it("renders a table", async () => {
-    render(<App />);
+    renderWithProviders();
     await waitFor(() => {
       expect(screen.getByRole("table")).toBeInTheDocument();
     });
   });
 
   it('renders a table with podcasts data "A History of Rock Music in 500 Songs"', async () => {
-    render(<App />);
+    renderWithProviders();
     await waitFor(() => {
       expect(
         screen.getByText(/A History of Rock Music in 500 Songs/i)
@@ -71,6 +74,26 @@ describe("App", () => {
       expect(
         screen.queryByText(/A History of Rock Music in 500 Songs/i)
       ).not.toBeInTheDocument();
+    });
+  });
+
+  it('when user clicks on "A History of Rock Music in 500 Songs" navigates to podcast page', async () => {
+    renderWithProviders();
+
+    const podcastName = /A History of Rock Music in 500 Songs/i;
+    let podcast: HTMLElement;
+
+    await waitFor(() => {
+      podcast = screen.getByText(podcastName);
+      expect(podcast).toBeInTheDocument();
+    });
+
+    fireEvent.click(podcast!);
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("heading", { name: podcastName })
+      ).toBeInTheDocument();
     });
   });
 });

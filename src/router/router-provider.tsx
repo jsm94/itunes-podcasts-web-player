@@ -6,6 +6,7 @@ import { ROUTES } from "../constants/app.constants";
 import { SearchProvider } from "../context/SearchContext";
 
 import Home from "../pages/Home";
+import PodcastPage from "../pages/PodcastPage";
 
 const router = (parentElement: React.ReactNode) =>
   createBrowserRouter([
@@ -16,6 +17,10 @@ const router = (parentElement: React.ReactNode) =>
         {
           path: ROUTES.HOME,
           element: <Home />,
+        },
+        {
+          path: ROUTES.PODCAST_DETAIL,
+          element: <PodcastPage />,
         },
       ],
     },

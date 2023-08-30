@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import { Podcast } from "../modules/podcasts/domain/Podcast";
 
+import { ROUTES } from "../constants/app.constants";
 import {
   Table,
   TableBody,
@@ -29,7 +31,9 @@ const PodcastsDataTable = ({
           <TableRow key={podcast.id}>
             <TableData>{podcast.id}</TableData>
             <TableData>
-              {podcast.title} - {podcast.author}
+              <Link to={`${ROUTES.PODCAST}/${podcast.id}`}>
+                {podcast.title} - {podcast.author}
+              </Link>
             </TableData>
             <TableData>{podcast.description}</TableData>
             <TableData>an hour ago</TableData>
