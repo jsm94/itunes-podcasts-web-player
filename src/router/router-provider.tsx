@@ -5,6 +5,7 @@ import { ROUTES } from "../constants/app.constants";
 
 import { SearchProvider } from "../context/SearchContext";
 
+import { WebPlayerProvider } from "../context/WebPlayerContext";
 import Home from "../pages/Home";
 import PodcastPage from "../pages/PodcastPage";
 
@@ -29,9 +30,11 @@ const router = (parentElement: React.ReactNode) =>
 export const withProviders = (parentElement: React.ReactNode) => {
   return (
     <StrictMode>
-      <SearchProvider>
-        <RouterProvider router={router(parentElement)} />
-      </SearchProvider>
+      <WebPlayerProvider>
+        <SearchProvider>
+          <RouterProvider router={router(parentElement)} />
+        </SearchProvider>
+      </WebPlayerProvider>
     </StrictMode>
   );
 };

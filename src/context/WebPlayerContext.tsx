@@ -23,8 +23,9 @@ export type WebPlayerState = {
   currentTime: number;
 };
 
-export type WebPlayerAction = WebPlayerState & {
+export type WebPlayerAction = {
   type: WebPlayerActionTypes;
+  payload?: WebPlayerState;
 };
 
 const initialState: WebPlayerState = {
@@ -33,14 +34,14 @@ const initialState: WebPlayerState = {
   isPlaying: false,
   isLooping: false,
   isShuffling: false,
-  volume: 0.25,
+  volume: 0.05,
   currentTime: 0,
 };
 
 const WebPlayerReducer = (state: WebPlayerState, action: WebPlayerAction) => {
   switch (action.type) {
     case WebPlayerActionTypes.SET_TRACKS: {
-      return { ...state, tracks: action.tracks };
+      return { ...state, tracks: action.payload!.tracks };
     }
     case WebPlayerActionTypes.PLAY: {
       return { ...state, isPlaying: true };
@@ -69,10 +70,10 @@ const WebPlayerReducer = (state: WebPlayerState, action: WebPlayerAction) => {
       return { ...state, isShuffling: !state.isShuffling };
     }
     case WebPlayerActionTypes.SEEK: {
-      return { ...state, currentTime: action.currentTime };
+      return { ...state, currentTime: action.payload!.currentTime };
     }
     case WebPlayerActionTypes.SET_VOLUME: {
-      return { ...state, volume: action.volume };
+      return { ...state, volume: action.payload!.volume };
     }
     default: {
       throw Error("Unknown action: " + action.type);
@@ -102,7 +103,7 @@ export const WebPlayerProvider = ({ children }: WebPlayerProviderProps) => {
   );
 };
 
-export const useWebPlayer = () => {
+export const useWebPlayerContext = () => {
   return useContext(WebPlayerContext);
 };
 

@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
+
 import { Podcast } from "../modules/podcasts/domain/Podcast";
+
+import {
+  WebPlayerActionTypes,
+  useWebPlayerContext,
+  useWebPlayerDispatch,
+} from "../context/WebPlayerContext";
 
 import { ROUTES } from "../constants/app.constants";
 import {
@@ -11,11 +18,29 @@ import {
   TableRow,
 } from "./Table";
 
+import { usePodcasts } from "../hooks/podcasts/usePodcasts";
+
 const PodcastsDataTable = ({
   podcasts,
 }: {
   podcasts: Podcast[] | undefined;
 }) => {
+  const dispatch = useWebPlayerDispatch();
+  const state = useWebPlayerContext();
+  const { getEpisodes } = usePodcasts();
+
+  const handlePlay = async (podcast: Podcast) => {
+    const episodes = await getEpisodes(podcast.id as string);
+
+    dispatch({
+      type: WebPlayerActionTypes.SET_TRACKS,
+      payload: {
+        ...state,
+        tracks: episodes!,
+      },
+    });
+  };
+
   return (
     <Table>
       <TableHead>
@@ -29,7 +54,10 @@ const PodcastsDataTable = ({
       <TableBody>
         {podcasts?.map((podcast) => (
           <TableRow key={podcast.id}>
-            <TableData>{podcast.id}</TableData>
+            <TableData>
+              <button onClick={() => handlePlay(podcast)}>play</button>
+              {podcast.id}
+            </TableData>
             <TableData>
               <Link to={`${ROUTES.PODCAST}/${podcast.id}`}>
                 {podcast.title} - {podcast.author}

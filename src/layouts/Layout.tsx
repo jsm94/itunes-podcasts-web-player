@@ -1,3 +1,4 @@
+import WebPlayer from "../components/WebPlayer";
 import { useSearchDispatch } from "../context/SearchContext";
 
 type LayoutProps = {
@@ -17,7 +18,9 @@ const Layout = ({ children }: LayoutProps) => {
         <input type="text" placeholder="podcast" onChange={handleSearch} />
       </header>
       <main className="container mx-auto">{children}</main>
-      <footer>webplayer</footer>
+      <footer>
+        <WebPlayer />
+      </footer>
     </div>
   );
 };
