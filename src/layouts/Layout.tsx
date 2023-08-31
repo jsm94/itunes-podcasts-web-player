@@ -18,7 +18,7 @@ const Layout = ({ children }: LayoutProps) => {
         <input type="text" placeholder="podcast" onChange={handleSearch} />
       </header>
       <main className="container mx-auto">{children}</main>
-      <footer>
+      <footer className="sticky bottom-0 bg-black">
         <WebPlayer />
       </footer>
     </div>

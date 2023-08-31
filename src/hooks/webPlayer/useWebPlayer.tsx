@@ -1,8 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import { useWebPlayerContext } from "../../context/WebPlayerContext";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { Episode } from "../../modules/podcasts/domain/Episode";
 
+import {
+  WebPlayerActionTypes,
+  useWebPlayerContext,
+  useWebPlayerDispatch,
+} from "../../context/WebPlayerContext";
+
 export const useWebPlayer = () => {
+  const state = useWebPlayerContext();
   const {
     tracks,
     currentTime,
@@ -11,23 +18,112 @@ export const useWebPlayer = () => {
     isPlaying,
     isShuffling,
     volume,
-  } = useWebPlayerContext();
+  } = state;
+  const dispatch = useWebPlayerDispatch();
 
-  const [tracksPlaying, setTracksPlaying] = useState<Episode[]>();
+  const [currentTimeCalc, setCurrentTimeCalc] = useState<number>(0);
+
+  const tracksPlayingRef = useRef<Episode[] | undefined>([]);
+  const tracksPlaying = tracksPlayingRef.current;
 
   const audioRef = useRef(new Audio());
+  const { currentTime: currentRefTime } = audioRef.current;
+
+  const updateTimer = useCallback(() => {
+    const { duration } = audioRef.current;
+    dispatch({
+      type: WebPlayerActionTypes.SEEK,
+      payload: {
+        ...state,
+        currentTime: currentRefTime,
+      },
+    });
+    setCurrentTimeCalc((currentRefTime * 100) / duration);
+  }, [currentRefTime]);
+
+  const nextTrack = useCallback(() => {
+    dispatch({
+      type: WebPlayerActionTypes.NEXT,
+    });
+  }, []);
+
+  useEffect(() => {
+    audioRef.current.addEventListener("timeupdate", updateTimer);
+    return () => {
+      audioRef.current.removeEventListener("timeupdate", updateTimer);
+    };
+  }, [updateTimer]);
+
+  useEffect(() => {
+    audioRef.current.addEventListener("ended", nextTrack);
+    return () => {
+      audioRef.current.removeEventListener("ended", nextTrack);
+    };
+  }, [nextTrack]);
+
+  const loadTrack = (index: number) => {
+    audioRef.current.src = tracksPlayingRef.current![index].audio!;
+    audioRef.current.load();
+    audioRef.current.volume = volume;
+    audioRef.current
+      .play()
+      .then(() => {
+        dispatch({
+          type: WebPlayerActionTypes.PLAY,
+        });
+      })
+      .catch(() => {
+        console.log("abort play");
+      });
+  };
 
   useEffect(() => {
     if (!tracks.length) return;
-    setTracksPlaying(tracks);
-    audioRef.current.src = tracks[0].audio!;
-    audioRef.current.load();
-    audioRef.current.volume = volume;
-    audioRef.current.play();
+    tracksPlayingRef.current = tracks;
+    loadTrack(currentTrackIndex);
   }, [tracks]);
+
+  useEffect(() => {
+    if (!tracksPlaying?.length) return;
+    loadTrack(currentTrackIndex);
+  }, [currentTrackIndex]);
+
+  useEffect(() => {
+    audioRef.current.volume = volume;
+  }, [volume]);
+
+  useEffect(() => {
+    audioRef.current.loop = isLooping;
+  }, [isLooping]);
+
+  useEffect(() => {
+    if (!isShuffling) {
+      tracksPlayingRef.current = tracks;
+      return;
+    }
+    const beforeCurrent = tracksPlaying?.slice(0, currentTrackIndex);
+    const afterCurrent = tracksPlaying?.slice(currentTrackIndex + 1);
+
+    const shuffledTracks = [
+      ...beforeCurrent!.sort(() => Math.random() - 0.5),
+      tracksPlaying![currentTrackIndex],
+      ...afterCurrent!.sort(() => Math.random() - 0.5),
+    ];
+
+    tracksPlayingRef.current = shuffledTracks;
+  }, [isShuffling]);
+
+  useEffect(() => {
+    if (!isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+  }, [isPlaying]);
 
   return {
     tracksPlaying,
     currentTrackIndex,
+    currentTimeCalc,
   };
 };
