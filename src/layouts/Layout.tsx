@@ -2,7 +2,9 @@ import { useSearchDispatch } from "../context/SearchContext";
 
 import { cn } from "../utils/helpers";
 
+import { Icon, Icons } from "../components/Icon";
 import WebPlayer from "../components/WebPlayer";
+import Input from "../components/ui/Input";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -17,11 +19,36 @@ const Layout = ({ children, className }: LayoutProps) => {
   };
 
   return (
-    <div className={cn(["bg-neutral-950", className])}>
+    <div
+      className={cn([
+        "bg-neutral-950 flex flex-col gap-[34px] pt-[30px]",
+        className,
+      ])}
+    >
       <header className="container mx-auto">
-        <input type="text" placeholder="podcast" onChange={handleSearch} />
+        <Input
+          className="w-full"
+          startAdornment={
+            <Icon
+              icon={Icons.SEARCH}
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+            />
+          }
+          slotProps={{
+            input: {
+              className: "w-full",
+            },
+          }}
+          type="text"
+          placeholder="podcast"
+          onChange={handleSearch}
+        />
       </header>
-      <main className="container mx-auto">{children}</main>
+      <main className="container mx-auto min-h-[calc(100vh-32px)]">
+        {children}
+      </main>
       <footer className="sticky bottom-0 bg-black">
         <WebPlayer />
       </footer>
