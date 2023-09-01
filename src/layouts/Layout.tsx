@@ -19,12 +19,7 @@ const Layout = ({ children, className }: LayoutProps) => {
   };
 
   return (
-    <div
-      className={cn([
-        "bg-neutral-950 flex flex-col gap-[34px] pt-[30px]",
-        className,
-      ])}
-    >
+    <div className={cn(["flex flex-col gap-[34px] pt-[30px]", className])}>
       <header className="container mx-auto">
         <Input
           className="w-full"

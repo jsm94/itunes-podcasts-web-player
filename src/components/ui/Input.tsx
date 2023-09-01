@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <BaseInput
         className={cn(
-          "h-[50px] text-white pl-5 pr-[5px] bg-zinc-900 rounded-[15px] justify-start items-center gap-4 inline-flex",
+          "h-[50px] text-white pl-5 pr-[5px] bg-eerie-black rounded-[15px] justify-start items-center gap-4 inline-flex",
           className
         )}
         ref={ref}
@@ -29,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             return {
               ...resolvedSlotProps,
               className: cn(
-                "w-full h-[50px] text-white bg-zinc-900 outline-0",
+                "w-full h-[50px] text-white bg-eerie-black outline-0",
                 resolvedSlotProps?.className
               ),
             };
