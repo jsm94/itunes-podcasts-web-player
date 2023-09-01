@@ -1,11 +1,15 @@
-import WebPlayer from "../components/WebPlayer";
 import { useSearchDispatch } from "../context/SearchContext";
+
+import { cn } from "../utils/helpers";
+
+import WebPlayer from "../components/WebPlayer";
 
 type LayoutProps = {
   children: React.ReactNode;
+  className?: string;
 };
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, className }: LayoutProps) => {
   const dispatch = useSearchDispatch();
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,7 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
   };
 
   return (
-    <div>
+    <div className={cn(["bg-neutral-950", className])}>
       <header className="container mx-auto">
         <input type="text" placeholder="podcast" onChange={handleSearch} />
       </header>
