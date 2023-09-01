@@ -29,8 +29,36 @@ const PodcastsDataTable = ({
   const state = useWebPlayerContext();
   const { getEpisodes } = usePodcasts();
 
+  const { currentPodcastId, isPlaying } = state;
+
+  const podcastIsPlaying = (podcast: Podcast) => {
+    return podcast.id === currentPodcastId && isPlaying;
+  };
+
   const handlePlay = async (podcast: Podcast) => {
+    if (podcastIsPlaying(podcast)) {
+      dispatch({
+        type: WebPlayerActionTypes.PAUSE,
+      });
+      return;
+    }
+
+    if (podcast.id === currentPodcastId && !isPlaying) {
+      dispatch({
+        type: WebPlayerActionTypes.PLAY,
+      });
+      return;
+    }
+
     const episodes = await getEpisodes(podcast.id as string);
+
+    dispatch({
+      type: WebPlayerActionTypes.SET_CURRENT_PODCAST,
+      payload: {
+        ...state,
+        currentPodcastId: podcast.id,
+      },
+    });
 
     dispatch({
       type: WebPlayerActionTypes.SET_TRACKS,
@@ -55,7 +83,14 @@ const PodcastsDataTable = ({
         {podcasts?.map((podcast) => (
           <TableRow key={podcast.id}>
             <TableData>
-              <button onClick={() => handlePlay(podcast)}>play</button>
+              <button
+                onClick={() => handlePlay(podcast)}
+                aria-label={`${
+                  podcastIsPlaying(podcast) ? "pause" : "play"
+                } playlist`}
+              >
+                {podcastIsPlaying(podcast) ? "pause" : "play"}
+              </button>
               {podcast.id}
             </TableData>
             <TableData>

@@ -61,20 +61,27 @@ export const useWebPlayer = () => {
     };
   }, [nextTrack]);
 
-  const loadTrack = (index: number) => {
+  const loadTrack = async (index: number) => {
     audioRef.current.src = tracksPlayingRef.current![index].audio!;
     audioRef.current.load();
     audioRef.current.volume = volume;
-    audioRef.current
-      .play()
-      .then(() => {
-        dispatch({
-          type: WebPlayerActionTypes.PLAY,
-        });
-      })
-      .catch(() => {
-        console.log("abort play");
+    try {
+      await audioRef.current.play();
+
+      dispatch({
+        type: WebPlayerActionTypes.SET_CURRENT_TRACK,
+        payload: {
+          ...state,
+          currentTrackId: tracksPlayingRef.current![index].id!,
+        },
       });
+
+      dispatch({
+        type: WebPlayerActionTypes.PLAY,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

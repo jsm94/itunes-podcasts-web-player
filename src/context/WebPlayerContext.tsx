@@ -3,6 +3,8 @@ import { Episode } from "../modules/podcasts/domain/Episode";
 
 export enum WebPlayerActionTypes {
   SET_TRACKS = "set_tracks",
+  SET_CURRENT_TRACK = "set_current_track",
+  SET_CURRENT_PODCAST = "set_current_podcast",
   PLAY = "play",
   PAUSE = "pause",
   NEXT = "next",
@@ -16,6 +18,8 @@ export enum WebPlayerActionTypes {
 export type WebPlayerState = {
   tracks: Episode[];
   currentTrackIndex: number;
+  currentTrackId: number;
+  currentPodcastId: string;
   isPlaying: boolean;
   isLooping: boolean;
   isShuffling: boolean;
@@ -31,10 +35,12 @@ export type WebPlayerAction = {
 const initialState: WebPlayerState = {
   tracks: [],
   currentTrackIndex: 0,
+  currentTrackId: 0,
+  currentPodcastId: "",
   isPlaying: false,
   isLooping: false,
   isShuffling: false,
-  volume: 0.05,
+  volume: 0.02,
   currentTime: 0,
 };
 
@@ -42,6 +48,12 @@ const WebPlayerReducer = (state: WebPlayerState, action: WebPlayerAction) => {
   switch (action.type) {
     case WebPlayerActionTypes.SET_TRACKS: {
       return { ...state, tracks: action.payload!.tracks };
+    }
+    case WebPlayerActionTypes.SET_CURRENT_TRACK: {
+      return { ...state, currentTrackId: action.payload!.currentTrackId };
+    }
+    case WebPlayerActionTypes.SET_CURRENT_PODCAST: {
+      return { ...state, currentPodcastId: action.payload!.currentPodcastId };
     }
     case WebPlayerActionTypes.PLAY: {
       return { ...state, isPlaying: true };

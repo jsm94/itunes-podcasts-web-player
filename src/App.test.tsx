@@ -9,6 +9,16 @@ import { withProviders } from "./router/router-provider";
 
 import App from "./App";
 
+const mocks = {
+  Audio: {
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    pause: jest.fn(),
+    play: jest.fn(() => Promise.resolve()),
+    load: jest.fn(),
+  },
+};
+
 const renderWithProviders = () => {
   return render(
     withProviders(
@@ -21,6 +31,8 @@ const renderWithProviders = () => {
 
 describe("App", () => {
   beforeEach(() => {
+    window.history.pushState({}, "", "/");
+
     global.fetch = jest.fn((url) => {
       if (
         url ===
@@ -34,6 +46,18 @@ describe("App", () => {
         json: () => Promise.resolve(mockEpisodesListData),
       });
     }) as jest.Mock<Promise<Response>>;
+
+    global.Audio = jest.fn().mockImplementation(() => ({
+      addEventListener: mocks.Audio.addEventListener,
+      removeEventListener: mocks.Audio.removeEventListener,
+      pause: mocks.Audio.pause,
+      play: mocks.Audio.play,
+      load: mocks.Audio.load,
+    }));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it("renders App component", async () => {
@@ -116,6 +140,36 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Bakar - Hell N Back/i)).toBeInTheDocument();
+    });
+  });
+
+  test("when user clicks on play button should start playlist", async () => {
+    renderWithProviders();
+
+    const podcastName = /A History of Rock Music in 500 Songs/i;
+    let podcast: HTMLElement;
+
+    await waitFor(() => {
+      podcast = screen.getByText(podcastName);
+      expect(podcast).toBeInTheDocument();
+    });
+
+    let playButton: HTMLElement;
+    await waitFor(() => {
+      playButton = screen.getByRole("button", { name: /play playlist/i });
+      expect(playButton).toBeInTheDocument();
+    });
+
+    fireEvent.click(playButton!);
+
+    await waitFor(() => {
+      expect(mocks.Audio.play).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: /pause playlist/i })
+      ).toBeInTheDocument();
     });
   });
 });
