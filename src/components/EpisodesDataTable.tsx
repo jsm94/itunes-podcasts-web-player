@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./Table";
+} from "./ui/Table";
 
 const EpisodesDataTable = ({
   episodes,

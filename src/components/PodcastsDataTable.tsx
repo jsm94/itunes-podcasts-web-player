@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { ROUTES } from "../constants/app.constants";
+
 import { Podcast } from "../modules/podcasts/domain/Podcast";
 
 import {
@@ -8,7 +10,10 @@ import {
   useWebPlayerDispatch,
 } from "../context/WebPlayerContext";
 
-import { ROUTES } from "../constants/app.constants";
+import { usePodcasts } from "../hooks/podcasts/usePodcasts";
+
+import { cn } from "../utils/helpers";
+
 import {
   Table,
   TableBody,
@@ -16,15 +21,79 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./Table";
+} from "./ui/Table";
 
-import { usePodcasts } from "../hooks/podcasts/usePodcasts";
+import { useMemo } from "react";
+import { Icon, Icons } from "./Icon";
+
+const headings = ["#", "Name", "Description", "Released"];
+const headingSize = ["w-auto", "w-5/12", "w-6/12", "w-1/12"];
 
 const PodcastsDataTable = ({
   podcasts,
 }: {
   podcasts: Podcast[] | undefined;
 }) => {
+  const dataTableRender = useMemo(
+    () => [
+      {
+        render: (podcast: Podcast) => {
+          return (
+            <button
+              onClick={() => handlePlay(podcast)}
+              aria-label={`${
+                podcastIsPlaying(podcast) ? "pause" : "play"
+              } playlist`}
+            >
+              {podcastIsPlaying(podcast) ? (
+                <Icon icon={Icons.PAUSE} />
+              ) : (
+                <Icon icon={Icons.PLAY} />
+              )}
+            </button>
+          );
+        },
+      },
+      {
+        render: (podcast: Podcast) => {
+          return (
+            <Link to={`${ROUTES.PODCAST}/${podcast.id}`}>
+              <div className="flex gap-5">
+                <img
+                  width="45"
+                  height="45"
+                  className="rounded-lg"
+                  loading="lazy"
+                  src={podcast.image}
+                  alt={podcast.title}
+                />
+                <div className="flex flex-col">
+                  <span className="text-white text-base font-medium">
+                    {podcast.title}
+                  </span>
+                  <span className="text-white text-opacity-30 text-sm font-medium">
+                    {podcast.author}
+                  </span>
+                </div>
+              </div>
+            </Link>
+          );
+        },
+      },
+      {
+        render: (podcast: Podcast) => {
+          return <span className="line-clamp-2">{podcast.description}</span>;
+        },
+      },
+      {
+        render: () => {
+          return <span>an hour ago</span>;
+        },
+      },
+    ],
+    []
+  );
+
   const dispatch = useWebPlayerDispatch();
   const state = useWebPlayerContext();
   const { getEpisodes } = usePodcasts();
@@ -73,33 +142,36 @@ const PodcastsDataTable = ({
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeader>#</TableHeader>
-          <TableHeader>Name</TableHeader>
-          <TableHeader>Description</TableHeader>
-          <TableHeader>Released</TableHeader>
+          {headings.map((heading, i) => (
+            <TableHeader
+              className={cn([
+                headingSize[i],
+                "text-white pb-6 border-b border-white border-opacity-5 text-opacity-30 text-sm font-semibold text-left",
+              ])}
+              key={heading}
+            >
+              {heading}
+            </TableHeader>
+          ))}
         </TableRow>
       </TableHead>
       <TableBody>
         {podcasts?.map((podcast) => (
-          <TableRow key={podcast.id}>
-            <TableData>
-              <button
-                onClick={() => handlePlay(podcast)}
-                aria-label={`${
-                  podcastIsPlaying(podcast) ? "pause" : "play"
-                } playlist`}
+          <TableRow
+            className="border-b border-white border-opacity-5"
+            key={podcast.id}
+          >
+            {dataTableRender.map((data, i) => (
+              <TableData
+                className={cn([
+                  i === 0 ? "align-middle" : "align-top",
+                  "py-3.5 pr-8 text-white text-opacity-30 text-base font-medium",
+                ])}
+                key={`table-data-${i}`}
               >
-                {podcastIsPlaying(podcast) ? "pause" : "play"}
-              </button>
-              {podcast.id}
-            </TableData>
-            <TableData>
-              <Link to={`${ROUTES.PODCAST}/${podcast.id}`}>
-                {podcast.title} - {podcast.author}
-              </Link>
-            </TableData>
-            <TableData>{podcast.description}</TableData>
-            <TableData>an hour ago</TableData>
+                {data.render(podcast)}
+              </TableData>
+            ))}
           </TableRow>
         ))}
       </TableBody>
