@@ -58,11 +58,11 @@ const PodcastsDataTable = ({
         render: (podcast: Podcast) => {
           return (
             <Link to={`${ROUTES.PODCAST}/${podcast.id}`}>
-              <div className="flex gap-5">
+              <div className="flex gap-5 items-center">
                 <img
                   width="45"
                   height="45"
-                  className="rounded-lg"
+                  className="rounded-lg max-h-[45px]"
                   loading="lazy"
                   src={podcast.image}
                   alt={podcast.title}
