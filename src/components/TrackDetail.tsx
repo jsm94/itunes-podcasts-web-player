@@ -9,7 +9,7 @@ type TrackDetailProps = {
 
 const TrackDetail = ({ className, image, title, author }: TrackDetailProps) => {
   return (
-    <div className={cn("flex gap-5 items-center", className)}>
+    <div className={cn("flex rounded-[15px] gap-5 items-center", className)}>
       <img
         width="45"
         height="45"

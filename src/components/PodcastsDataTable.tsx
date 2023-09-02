@@ -97,7 +97,10 @@ const PodcastsDataTable = ({
       {
         render: (podcast: Podcast) => {
           return (
-            <Link to={`${ROUTES.PODCAST}/${podcast.id}`}>
+            <Link
+              to={`${ROUTES.PODCAST}/${podcast.id}`}
+              className="flex hover:bg-zinc-700 focus:bg-zinc-700 focus:outline-0 rounded-[15px]"
+            >
               <TrackDetail
                 image={podcast.image}
                 title={podcast.title}
