@@ -1,4 +1,4 @@
-import { HTMLAttributes, forwardRef } from "react";
+import { ButtonHTMLAttributes, forwardRef } from "react";
 import { cn } from "../utils/helpers";
 import { Icon, IconSizes, Icons } from "./Icon";
 import Button, { ButtonVariants } from "./ui/Button";
@@ -27,7 +27,7 @@ const ButtonPlay = forwardRef<
     onClick: () => void;
     isPlaying: boolean;
     size?: IconSizes;
-  } & HTMLAttributes<HTMLButtonElement>
+  } & ButtonHTMLAttributes<HTMLButtonElement>
 >(({ onClick, isPlaying, size, ...props }, ref) => {
   return (
     <Button

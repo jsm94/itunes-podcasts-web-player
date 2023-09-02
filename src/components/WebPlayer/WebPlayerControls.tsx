@@ -23,7 +23,8 @@ const WebPlayerControls = ({
   currentTimeCalc: number;
 }) => {
   const state = useWebPlayerContext();
-  const { currentTime, isLooping, isShuffling, isPlaying } = state;
+  const { currentTime, isLooping, isShuffling, isPlaying, currentTrackId } =
+    state;
   const dispatch = useWebPlayerDispatch();
 
   const currentTrack = tracksPlaying?.[currentTrackIndex];
@@ -72,19 +73,30 @@ const WebPlayerControls = ({
           onClick={handleShuffle}
           isActive={isShuffling}
           aria-label={isShuffling ? "shuffle on" : "shuffle off"}
+          disabled={!currentTrackId}
         />
-        <ButtonWebPlayer icon={Icons.PREV} onClick={handlePrev} />
+        <ButtonWebPlayer
+          icon={Icons.PREV}
+          onClick={handlePrev}
+          disabled={!currentTrackId}
+        />
         <ButtonPlay
           onClick={handlePlay}
           isPlaying={isPlaying}
           size={IconSizes.MEDIUM}
+          disabled={!currentTrackId}
         />
-        <ButtonWebPlayer icon={Icons.NEXT} onClick={handleNext} />
+        <ButtonWebPlayer
+          icon={Icons.NEXT}
+          onClick={handleNext}
+          disabled={!currentTrackId}
+        />
         <ButtonWebPlayer
           onClick={handleLoop}
           icon={Icons.REPEAT}
           isActive={isLooping}
           aria-label={isLooping ? "loop on" : "loop off"}
+          disabled={!currentTrackId}
         />
       </div>
       <div className="flex gap-3.5 items-center">
