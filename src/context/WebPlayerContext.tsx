@@ -3,6 +3,7 @@ import { Episode } from "../modules/podcasts/domain/Episode";
 
 export enum WebPlayerActionTypes {
   SET_TRACKS = "set_tracks",
+  SET_TRACK_INDEX = "set_track_index",
   SET_CURRENT_TRACK = "set_current_track",
   SET_CURRENT_PODCAST = "set_current_podcast",
   PLAY = "play",
@@ -48,6 +49,9 @@ const WebPlayerReducer = (state: WebPlayerState, action: WebPlayerAction) => {
   switch (action.type) {
     case WebPlayerActionTypes.SET_TRACKS: {
       return { ...state, tracks: action.payload!.tracks };
+    }
+    case WebPlayerActionTypes.SET_TRACK_INDEX: {
+      return { ...state, currentTrackIndex: action.payload!.currentTrackIndex };
     }
     case WebPlayerActionTypes.SET_CURRENT_TRACK: {
       return { ...state, currentTrackId: action.payload!.currentTrackId };

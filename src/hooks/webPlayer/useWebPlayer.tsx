@@ -14,6 +14,7 @@ export const useWebPlayer = () => {
     tracks,
     currentTime,
     currentTrackIndex,
+    currentTrackId,
     isLooping,
     isPlaying,
     isShuffling,
@@ -28,6 +29,19 @@ export const useWebPlayer = () => {
 
   const audioRef = useRef(new Audio());
   const { currentTime: currentRefTime } = audioRef.current;
+
+  const shuffleTracks = (tracks: Episode[]) => {
+    const beforeCurrent = tracks.slice(0, currentTrackIndex);
+    const afterCurrent = tracks.slice(currentTrackIndex + 1);
+
+    const shuffledTracks = [
+      ...beforeCurrent.sort(() => Math.random() - 0.5),
+      tracks[currentTrackIndex],
+      ...afterCurrent.sort(() => Math.random() - 0.5),
+    ];
+
+    return shuffledTracks;
+  };
 
   const updateTimer = useCallback(() => {
     const { duration } = audioRef.current;
@@ -86,9 +100,25 @@ export const useWebPlayer = () => {
 
   useEffect(() => {
     if (!tracks.length) return;
-    tracksPlayingRef.current = tracks;
+    let tracksResult = tracks;
+    if (isShuffling) tracksResult = shuffleTracks(tracks);
+    tracksPlayingRef.current = tracksResult;
     loadTrack(currentTrackIndex);
   }, [tracks]);
+
+  useEffect(() => {
+    const trackIndex = tracksPlaying?.findIndex(
+      (track) => track.id === currentTrackId
+    );
+    if (trackIndex === -1) return;
+    dispatch({
+      type: WebPlayerActionTypes.SET_TRACK_INDEX,
+      payload: {
+        ...state,
+        currentTrackIndex: trackIndex!,
+      },
+    });
+  }, [tracksPlaying, currentTrackId]);
 
   useEffect(() => {
     if (!tracksPlaying?.length) return;
@@ -108,16 +138,8 @@ export const useWebPlayer = () => {
       tracksPlayingRef.current = tracks;
       return;
     }
-    const beforeCurrent = tracksPlaying?.slice(0, currentTrackIndex);
-    const afterCurrent = tracksPlaying?.slice(currentTrackIndex + 1);
 
-    const shuffledTracks = [
-      ...beforeCurrent!.sort(() => Math.random() - 0.5),
-      tracksPlaying![currentTrackIndex],
-      ...afterCurrent!.sort(() => Math.random() - 0.5),
-    ];
-
-    tracksPlayingRef.current = shuffledTracks;
+    tracksPlayingRef.current = shuffleTracks(tracks);
   }, [isShuffling]);
 
   useEffect(() => {
