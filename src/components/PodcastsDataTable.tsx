@@ -12,18 +12,8 @@ import {
 
 import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 
-import { cn } from "../utils/helpers";
-
-import {
-  Table,
-  TableBody,
-  TableData,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./ui/Table";
-
 import { useMemo } from "react";
+import DataTable from "./DataTable";
 import { Icon, Icons } from "./Icon";
 
 const headings = ["#", "Name", "Description", "Released"];
@@ -138,44 +128,19 @@ const PodcastsDataTable = ({
     [podcastIsPlaying]
   );
 
+  if (!podcasts) return null;
+
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          {headings.map((heading, i) => (
-            <TableHeader
-              className={cn([
-                headingSize[i],
-                "text-white pb-6 border-b border-white border-opacity-5 text-opacity-30 text-sm font-semibold text-left",
-              ])}
-              key={heading}
-            >
-              {heading}
-            </TableHeader>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {podcasts?.map((podcast) => (
-          <TableRow
-            className="border-b border-white border-opacity-5"
-            key={podcast.id}
-          >
-            {dataTableRender.map((data, i) => (
-              <TableData
-                className={cn([
-                  i === 0 ? "align-middle" : "align-top",
-                  "py-3.5 pr-8 text-white text-opacity-30 text-base font-medium",
-                ])}
-                key={`table-data-${i}`}
-              >
-                {data.render(podcast)}
-              </TableData>
-            ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <DataTable
+      dataset={podcasts}
+      options={{
+        headings: {
+          data: headings,
+          sizes: headingSize,
+        },
+        dataRenders: dataTableRender,
+      }}
+    />
   );
 };
 
