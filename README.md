@@ -38,32 +38,31 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 The two views shares the same layout.
 
-- [ ] Should be show on top of the page the podcasts filterbar component.
-- [ ] Should be show at the bottom the web player.
+- [x] Should be show on top of the page the podcasts filterbar component.
+- [x] Should be show at the bottom the web player.
 
 ### Web Player
 
-- [ ] Should start/stop/resume a selected playlist.
-- [ ] Should have buttons for back to the previous episode or select the next one.
-- [ ] Can select random mode, to shuffle the actual playlist.
-- [ ] Can repeat the actual episode.
-- [ ] Should have a volume controller.
+- [x] Should start/stop/resume a selected playlist.
+- [x] Should have buttons for back to the previous episode or select the next one.
+- [x] Can select random mode, to shuffle the actual playlist.
+- [x] Can repeat the actual episode.
+- [x] Should have a volume controller.
 
 ### Main/Search view
 
-_Assumption:_ The main view would be the search view, so `/` redirects to `/search`.
-URL: `/search`
+URL: `/`
 
-- [ ] Show the list of the 100 most popular podcasts according to this Apple's list:
+- [x] Show the list of the 100 most popular podcasts according to this Apple's list:
       `https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json`
-- [ ] The list results should be cached for 1 day to not make the API call again while cached.
-- [ ] The list should be a data table with the headers Name, Description and Released.
+- [x] The list results should be cached for 1 day to not make the API call again while cached.
+- [x] The list should be a data table with the headers Name, Description and Released.
 - [ ] The "Released" field should show an human readable moment.
-- [ ] The users could filter the podcast list by writing on the input search. The string should match with podcast title and/or author's name.
-- [ ] The list should react immediately with the filter while typing.
+- [x] The users could filter the podcast list by writing on the input search. The string should match with podcast title and/or author's name.
+- [x] The list should react immediately with the filter while typing.
 - [ ] Can order the list by a chosen property from the dropdown "Order by".
-- [ ] Click on a podcast should navigate to the podcast detail view.
-- [ ] Can start to play podcast episodes clicking on the play button. We can stop what we are currently listen and resume it again from this button.
+- [x] Click on a podcast should navigate to the podcast detail view.
+- [x] Can start to play podcast episodes clicking on the play button. We can stop what we are currently listen and resume it again from this button.
 
 ### Podcast detail view
 
@@ -74,9 +73,9 @@ According to this endpoint:
 
 - [ ] Should show a banner with the podcast image.
 - [ ] Under the banner should show play/pause button, the title and the "Order by" dropdown
-- [ ] The podcast detail should be cached for 1 day to not make the API call again while cached.
-- [ ] The list should be a data table with the headers Title, Topic, Released and Duration.
-- [ ] Click on the play/pause button from an episode title should start/stop/resume the episode.
+- [x] The podcast detail should be cached for 1 day to not make the API call again while cached.
+- [x] The list should be a data table with the headers Title, Topic, Released and Duration.
+- [x] Click on the play/pause button from an episode title should start/stop/resume the episode.
 
 > Service for external resources that not allow JSON neither CORS headers: `https://allorigins.win`
 
