@@ -3,7 +3,7 @@ import { useSearchDispatch } from "../context/SearchContext";
 import { cn } from "../utils/helpers";
 
 import { Icon, Icons } from "../components/Icon";
-import WebPlayer from "../components/WebPlayer";
+import WebPlayer from "../components/WebPlayer/WebPlayer";
 import Input from "../components/ui/Input";
 
 type LayoutProps = {
