@@ -16,11 +16,6 @@ const Home = () => {
 
   const podcastsRef = useRef<Podcast[] | undefined>([]);
 
-  const loadData = async () => {
-    podcastsRef.current = await getPodcasts();
-    setPodcasts(podcastsRef.current);
-  };
-
   const filterPodcasts = (podcasts: Podcast[]) => {
     return podcasts.filter((podcast) => {
       return (
@@ -28,6 +23,15 @@ const Home = () => {
         podcast.author.toLowerCase().includes(search.toLowerCase())
       );
     });
+  };
+
+  const loadData = async () => {
+    podcastsRef.current = await getPodcasts();
+    let filteredPodcasts = podcastsRef.current;
+    if (search) {
+      filteredPodcasts = filterPodcasts(podcastsRef.current!);
+    }
+    setPodcasts(filteredPodcasts);
   };
 
   useEffect(() => {
