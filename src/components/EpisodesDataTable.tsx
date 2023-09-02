@@ -10,6 +10,7 @@ import { Podcast } from "../modules/podcasts/domain/Podcast";
 import { msToDuration } from "../utils/formatters";
 import DataTable from "./DataTable";
 import { Icon, Icons } from "./Icon";
+import TrackDetail from "./TrackDetail";
 
 type EpisodesDataTableProps = {
   podcast: Podcast | undefined;
@@ -18,7 +19,7 @@ type EpisodesDataTableProps = {
 
 const headings = {
   data: ["#", "Title", "Topic", "Released", "⏱"],
-  sizes: ["w-auto", "w-5/12", "w-4/12", "w-1/12", "w-2/12"],
+  sizes: ["w-auto", "w-5/12", "w-6/12", "w-1/12", "w-2/12"],
 };
 
 const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
@@ -96,24 +97,11 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
       {
         render: (episode: Episode) => {
           return (
-            <div className="flex gap-5 items-center">
-              <img
-                width="45"
-                height="45"
-                className="rounded-lg max-h-[45px]"
-                loading="lazy"
-                src={podcast?.image}
-                alt={podcast?.title}
-              />
-              <div className="flex flex-col">
-                <span className="text-white text-base font-medium">
-                  {episode.title}
-                </span>
-                <span className="text-white text-opacity-30 text-sm font-medium">
-                  {podcast?.author}
-                </span>
-              </div>
-            </div>
+            <TrackDetail
+              image={podcast!.image}
+              title={episode.title}
+              author={podcast!.author}
+            />
           );
         },
       },

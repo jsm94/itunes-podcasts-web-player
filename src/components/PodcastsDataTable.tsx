@@ -15,6 +15,7 @@ import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 import { useMemo } from "react";
 import DataTable from "./DataTable";
 import { Icon, Icons } from "./Icon";
+import TrackDetail from "./TrackDetail";
 
 const headings = ["#", "Name", "Description", "Released"];
 const headingSize = ["w-auto", "w-5/12", "w-6/12", "w-1/12"];
@@ -92,24 +93,11 @@ const PodcastsDataTable = ({
         render: (podcast: Podcast) => {
           return (
             <Link to={`${ROUTES.PODCAST}/${podcast.id}`}>
-              <div className="flex gap-5 items-center">
-                <img
-                  width="45"
-                  height="45"
-                  className="rounded-lg max-h-[45px]"
-                  loading="lazy"
-                  src={podcast.image}
-                  alt={podcast.title}
-                />
-                <div className="flex flex-col">
-                  <span className="text-white text-base font-medium">
-                    {podcast.title}
-                  </span>
-                  <span className="text-white text-opacity-30 text-sm font-medium">
-                    {podcast.author}
-                  </span>
-                </div>
-              </div>
+              <TrackDetail
+                image={podcast.image}
+                title={podcast.title}
+                author={podcast.author}
+              />
             </Link>
           );
         },
