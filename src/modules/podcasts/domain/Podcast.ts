@@ -7,4 +7,5 @@ export interface Podcast {
   description: string;
   image: string;
   episodes: Episode[];
+  releaseDate: Date;
 }

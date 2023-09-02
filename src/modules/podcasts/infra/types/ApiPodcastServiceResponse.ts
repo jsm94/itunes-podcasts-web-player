@@ -13,6 +13,11 @@ export interface Entry {
   title: Title;
   id: Id;
   "im:artist": ImArtist;
+  "im:releaseDate": ImReleaseDate;
+}
+
+export interface ImReleaseDate {
+  label: string;
 }
 
 export interface ImName {

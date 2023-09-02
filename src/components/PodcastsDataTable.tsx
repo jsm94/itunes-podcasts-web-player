@@ -111,8 +111,10 @@ const PodcastsDataTable = ({
         },
       },
       {
-        render: () => {
-          return <span>an hour ago</span>;
+        render: (podcast: Podcast) => {
+          return (
+            <span>{new Date(podcast.releaseDate).toLocaleDateString()}</span>
+          );
         },
       },
     ],
