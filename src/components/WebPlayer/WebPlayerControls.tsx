@@ -77,7 +77,7 @@ const WebPlayerControls = ({
         <ButtonPlay
           onClick={handlePlay}
           isPlaying={isPlaying}
-          size={IconSizes.LARGE}
+          size={IconSizes.MEDIUM}
         />
         <ButtonWebPlayer icon={Icons.NEXT} onClick={handleNext} />
         <ButtonWebPlayer

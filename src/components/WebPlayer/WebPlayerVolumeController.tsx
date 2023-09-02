@@ -24,7 +24,7 @@ const WebPlayerVolumeController = () => {
 
   return (
     <div className="flex px-[30px] gap-[11px] items-center align-center min-w-fit">
-      <Icon icon={Icons.VOLUME} size={IconSizes.LARGE} />
+      <Icon icon={Icons.VOLUME} size={IconSizes.MEDIUM} />
       <div className="w-[100px]">
         <Slider
           defaultValue={volume * 100}

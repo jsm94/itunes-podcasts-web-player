@@ -5,14 +5,20 @@ import Button, { ButtonVariants } from "./ui/Button";
 
 const sizePauseViewBox = {
   [IconSizes.SMALL]: "-2 -1 15 15",
-  [IconSizes.MEDIUM]: "-2 -1 15 15",
+  [IconSizes.MEDIUM]: "-2 -2 16 16",
   [IconSizes.LARGE]: "-2 -2 16 16",
 };
 
 const sizePlayViewBox = {
   [IconSizes.SMALL]: undefined,
-  [IconSizes.MEDIUM]: "-2 -1 15 15",
+  [IconSizes.MEDIUM]: "0 0 16 16",
   [IconSizes.LARGE]: "0 0 16 16",
+};
+
+const padding = {
+  [IconSizes.SMALL]: undefined,
+  [IconSizes.MEDIUM]: "p-[13px]",
+  [IconSizes.LARGE]: "p-[13px]",
 };
 
 const ButtonPlay = forwardRef<
@@ -29,7 +35,7 @@ const ButtonPlay = forwardRef<
       {...props}
       variant={isPlaying ? ButtonVariants.PRIMARY : ButtonVariants.SECONDARY}
       onClick={onClick}
-      className={cn(size === IconSizes.LARGE && "p-[13px]")}
+      className={cn(padding[size ?? IconSizes.SMALL])}
     >
       <Icon
         icon={isPlaying ? Icons.PAUSE : Icons.PLAY}

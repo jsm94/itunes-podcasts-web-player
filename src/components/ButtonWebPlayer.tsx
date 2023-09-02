@@ -21,7 +21,7 @@ const ButtonWebPlayer = forwardRef<
     >
       <Icon
         icon={icon}
-        size={IconSizes.LARGE}
+        size={IconSizes.MEDIUM}
         className={cn(isActive && "fill-indigo-500")}
       />
     </Button>
