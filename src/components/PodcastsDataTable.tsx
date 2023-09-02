@@ -13,8 +13,8 @@ import {
 import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 
 import { useMemo } from "react";
+import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
-import { Icon, Icons } from "./Icon";
 import TrackDetail from "./TrackDetail";
 
 const headings = ["#", "Name", "Description", "Released"];
@@ -74,18 +74,10 @@ const PodcastsDataTable = ({
       {
         render: (podcast: Podcast) => {
           return (
-            <button
+            <ButtonPlay
               onClick={() => handlePlay(podcast)}
-              aria-label={`${
-                podcastIsPlaying(podcast) ? "pause" : "play"
-              } playlist`}
-            >
-              {podcastIsPlaying(podcast) ? (
-                <Icon icon={Icons.PAUSE} />
-              ) : (
-                <Icon icon={Icons.PLAY} />
-              )}
-            </button>
+              isPlaying={podcastIsPlaying(podcast)}
+            />
           );
         },
       },

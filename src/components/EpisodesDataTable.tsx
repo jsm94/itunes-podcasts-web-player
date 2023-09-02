@@ -8,8 +8,8 @@ import {
 } from "../context/WebPlayerContext";
 import { Podcast } from "../modules/podcasts/domain/Podcast";
 import { msToDuration } from "../utils/formatters";
+import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
-import { Icon, Icons } from "./Icon";
 import TrackDetail from "./TrackDetail";
 
 type EpisodesDataTableProps = {
@@ -79,18 +79,10 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
       {
         render: (episode: Episode) => {
           return (
-            <button
+            <ButtonPlay
               onClick={() => handlePlay(episode)}
-              aria-label={`${
-                trackIsPlaying(episode) ? "pause" : "play"
-              } episode`}
-            >
-              {trackIsPlaying(episode) ? (
-                <Icon icon={Icons.PAUSE} />
-              ) : (
-                <Icon icon={Icons.PLAY} />
-              )}
-            </button>
+              isPlaying={trackIsPlaying(episode)}
+            />
           );
         },
       },
