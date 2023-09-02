@@ -64,7 +64,6 @@ const WebPlayerReducer = (state: WebPlayerState, action: WebPlayerAction) => {
       return { ...state, currentPodcastId: action.payload!.currentPodcastId };
     }
     case WebPlayerActionTypes.SET_CURRENT_PODCAST: {
-      console.log(action);
       return { ...state, podcast: action.payload!.podcast };
     }
     case WebPlayerActionTypes.PLAY: {

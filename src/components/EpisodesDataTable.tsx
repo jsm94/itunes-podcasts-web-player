@@ -94,7 +94,7 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
         render: (episode: Episode) => {
           return (
             <TrackDetail
-              image={podcast!.image}
+              image={episode?.image ?? podcast!.image}
               title={episode.title}
               author={podcast!.author}
             />

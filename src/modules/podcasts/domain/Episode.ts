@@ -5,4 +5,5 @@ export interface Episode {
   releaseDate: Date | string;
   duration: number | undefined;
   audio: string | undefined;
+  image: string | undefined;
 }

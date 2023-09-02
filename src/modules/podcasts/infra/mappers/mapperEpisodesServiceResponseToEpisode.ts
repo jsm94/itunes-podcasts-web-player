@@ -2,7 +2,7 @@ import { Episode } from "../../domain/Episode";
 import { ApiEpisodesServiceResponse } from "../types/ApiEpisodesServiceResponse";
 
 export const mapperEpisodesServiceResponseToEpisode = (
-  podcastServiceResponse: ApiEpisodesServiceResponse,
+  podcastServiceResponse: ApiEpisodesServiceResponse
 ): Episode[] => {
   return podcastServiceResponse.results
     .filter((result) => result.wrapperType === "podcastEpisode")
@@ -13,5 +13,6 @@ export const mapperEpisodesServiceResponseToEpisode = (
       audio: episode.previewUrl,
       releaseDate: new Date(episode.releaseDate),
       duration: episode.trackTimeMillis,
+      image: episode.artworkUrl160,
     }));
 };
