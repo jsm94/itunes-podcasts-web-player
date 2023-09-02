@@ -1,29 +1,120 @@
 import { useMemo } from "react";
 import { Episode } from "../modules/podcasts/domain/Episode";
 
+import {
+  WebPlayerActionTypes,
+  useWebPlayerContext,
+  useWebPlayerDispatch,
+} from "../context/WebPlayerContext";
+import { Podcast } from "../modules/podcasts/domain/Podcast";
 import { msToDuration } from "../utils/formatters";
 import DataTable from "./DataTable";
+import { Icon, Icons } from "./Icon";
+
+type EpisodesDataTableProps = {
+  podcast: Podcast | undefined;
+  episodes: Episode[] | undefined;
+};
 
 const headings = {
   data: ["#", "Title", "Topic", "Released", "⏱"],
-  sizes: ["w-12", "w-2/6", "w-2/6", "w-2/6", "w-2/6"],
+  sizes: ["w-auto", "w-5/12", "w-4/12", "w-1/12", "w-2/12"],
 };
 
-const EpisodesDataTable = ({
-  episodes,
-}: {
-  episodes: Episode[] | undefined;
-}) => {
+const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
+  const state = useWebPlayerContext();
+  const dispatch = useWebPlayerDispatch();
+
+  const { currentPodcastId, currentTrackId, isPlaying } = state;
+
+  const trackIsPlaying = (episode: Episode) => {
+    return episode.id === currentTrackId && isPlaying;
+  };
+
+  const handlePlay = (episode: Episode) => {
+    if (podcast?.id !== currentPodcastId) {
+      dispatch({
+        type: WebPlayerActionTypes.SET_TRACKS,
+        payload: {
+          ...state,
+          tracks: episodes!,
+        },
+      });
+
+      dispatch({
+        type: WebPlayerActionTypes.SET_CURRENT_PODCAST,
+        payload: {
+          ...state,
+          currentPodcastId: podcast?.id as string,
+        },
+      });
+    }
+
+    if (trackIsPlaying(episode)) {
+      dispatch({
+        type: WebPlayerActionTypes.PAUSE,
+      });
+      return;
+    }
+
+    if (episode.id === currentTrackId && !isPlaying) {
+      dispatch({
+        type: WebPlayerActionTypes.PLAY,
+      });
+      return;
+    }
+
+    dispatch({
+      type: WebPlayerActionTypes.SET_CURRENT_TRACK,
+      payload: {
+        ...state,
+        currentTrackId: episode.id,
+      },
+    });
+  };
+
   const dataRenders = useMemo(
     () => [
       {
         render: (episode: Episode) => {
-          return episode.id;
+          return (
+            <button
+              onClick={() => handlePlay(episode)}
+              aria-label={`${
+                trackIsPlaying(episode) ? "pause" : "play"
+              } episode`}
+            >
+              {trackIsPlaying(episode) ? (
+                <Icon icon={Icons.PAUSE} />
+              ) : (
+                <Icon icon={Icons.PLAY} />
+              )}
+            </button>
+          );
         },
       },
       {
         render: (episode: Episode) => {
-          return episode.title;
+          return (
+            <div className="flex gap-5 items-center">
+              <img
+                width="45"
+                height="45"
+                className="rounded-lg max-h-[45px]"
+                loading="lazy"
+                src={podcast?.image}
+                alt={podcast?.title}
+              />
+              <div className="flex flex-col">
+                <span className="text-white text-base font-medium">
+                  {episode.title}
+                </span>
+                <span className="text-white text-opacity-30 text-sm font-medium">
+                  {podcast?.author}
+                </span>
+              </div>
+            </div>
+          );
         },
       },
       {
@@ -42,7 +133,7 @@ const EpisodesDataTable = ({
         },
       },
     ],
-    []
+    [podcast, trackIsPlaying]
   );
 
   if (!episodes) return null;

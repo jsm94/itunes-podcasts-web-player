@@ -35,7 +35,7 @@ const PodcastPage = () => {
   return (
     <div className="flex flex-col gap-10">
       <h1>{podcast?.title}</h1>
-      <EpisodesDataTable episodes={episodes} />
+      <EpisodesDataTable podcast={podcast} episodes={episodes} />
     </div>
   );
 };

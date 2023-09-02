@@ -52,18 +52,18 @@ const PodcastsDataTable = ({
     const episodes = await getEpisodes(podcast.id as string);
 
     dispatch({
-      type: WebPlayerActionTypes.SET_CURRENT_PODCAST,
-      payload: {
-        ...state,
-        currentPodcastId: podcast.id,
-      },
-    });
-
-    dispatch({
       type: WebPlayerActionTypes.SET_TRACKS,
       payload: {
         ...state,
         tracks: episodes!,
+      },
+    });
+
+    dispatch({
+      type: WebPlayerActionTypes.SET_CURRENT_PODCAST,
+      payload: {
+        ...state,
+        currentPodcastId: podcast.id,
       },
     });
   };
