@@ -1,14 +1,18 @@
-import { Slider, SliderProps } from "@mui/base/Slider";
-import clsx from "clsx";
+import {
+  Slider as SliderBase,
+  SliderProps as SliderBaseProps,
+} from "@mui/base/Slider";
 import * as React from "react";
+
+import { cn } from "../../utils/helpers";
 
 const resolveSlotProps = (fn: any, args: any) =>
   typeof fn === "function" ? fn(args) : fn;
 
-const CustomSlider = React.forwardRef<HTMLSpanElement, SliderProps>(
+const CustomSlider = React.forwardRef<HTMLSpanElement, SliderBaseProps>(
   (props, ref) => {
     return (
-      <Slider
+      <SliderBase
         ref={ref}
         {...props}
         slotProps={{
@@ -20,8 +24,8 @@ const CustomSlider = React.forwardRef<HTMLSpanElement, SliderProps>(
             );
             return {
               ...resolvedSlotProps,
-              className: clsx(
-                `h-1.5 w-full py-4 inline-block relative touch-none ${
+              className: cn(
+                `h-[5px] w-full py-4 inline-block relative touch-none ${
                   ownerState.disabled
                     ? "opacity-50 cursor-default pointer-events-none text-slate-300 dark:text-slate-600"
                     : "hover:opacity-100 cursor-pointer text-purple-500 dark:text-purple-400"
@@ -37,8 +41,8 @@ const CustomSlider = React.forwardRef<HTMLSpanElement, SliderProps>(
             );
             return {
               ...resolvedSlotProps,
-              className: clsx(
-                "block absolute w-full h-1 rounded-sm bg-current opacity-40",
+              className: cn(
+                "block absolute w-full h-[5px] rounded-[10px] bg-white opacity-30",
                 resolvedSlotProps?.className
               ),
             };
@@ -51,8 +55,8 @@ const CustomSlider = React.forwardRef<HTMLSpanElement, SliderProps>(
 
             return {
               ...resolvedSlotProps,
-              className: clsx(
-                "block absolute h-1 rounded-sm bg-current",
+              className: cn(
+                "block absolute h-[5px] rounded-[10px] bg-white",
                 resolvedSlotProps?.className
               ),
             };
@@ -64,8 +68,8 @@ const CustomSlider = React.forwardRef<HTMLSpanElement, SliderProps>(
             );
             return {
               ...resolvedSlotProps,
-              className: clsx(
-                `absolute w-4 h-4 -ml-1.5 -mt-1.5 box-border rounded-full outline-0 border-3 border-solid border-current bg-white hover:shadow-outline-purple ${
+              className: cn(
+                `hidden absolute w-4 h-4 -ml-1.5 -mt-1.5 box-border rounded-full outline-0 border-3 border-solid border-current bg-white hover:shadow-outline-purple ${
                   focused || active ? "shadow-outline-purple" : ""
                 }`,
                 resolvedSlotProps?.className

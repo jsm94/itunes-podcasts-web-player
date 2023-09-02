@@ -6,7 +6,7 @@ import {
 
 import { useWebPlayer } from "../hooks/webPlayer/useWebPlayer";
 
-import Slider from "./Slider";
+import Slider from "./ui/Slider";
 
 const WebPlayer = () => {
   const { tracksPlaying, currentTrackIndex, currentTimeCalc } = useWebPlayer();
@@ -63,7 +63,7 @@ const WebPlayer = () => {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 text-white">
       <h2>{currentTrack?.title}</h2>
       <button onClick={handleShuffle}>shuffle</button>
       <button onClick={handlePlay}>play</button>
