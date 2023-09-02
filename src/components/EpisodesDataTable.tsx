@@ -43,7 +43,7 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
       });
 
       dispatch({
-        type: WebPlayerActionTypes.SET_CURRENT_PODCAST,
+        type: WebPlayerActionTypes.SET_CURRENT_PODCAST_ID,
         payload: {
           ...state,
           currentPodcastId: podcast?.id as string,
@@ -82,6 +82,10 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
             <ButtonPlay
               onClick={() => handlePlay(episode)}
               isPlaying={trackIsPlaying(episode)}
+              aria-label={`${
+                trackIsPlaying(episode) ? "pause" : "play"
+              } episode ${episode?.id}
+              `}
             />
           );
         },

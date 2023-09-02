@@ -44,7 +44,7 @@ const Layout = ({ children, className }: LayoutProps) => {
       <main className="container mx-auto min-h-[calc(100vh-32px)]">
         {children}
       </main>
-      <footer className="sticky bottom-0 bg-black">
+      <footer className="sticky bottom-0">
         <WebPlayer />
       </footer>
     </div>

@@ -1,10 +1,12 @@
 import { createContext, useContext, useReducer } from "react";
 import { Episode } from "../modules/podcasts/domain/Episode";
+import { Podcast } from "../modules/podcasts/domain/Podcast";
 
 export enum WebPlayerActionTypes {
   SET_TRACKS = "set_tracks",
   SET_TRACK_INDEX = "set_track_index",
   SET_CURRENT_TRACK = "set_current_track",
+  SET_CURRENT_PODCAST_ID = "set_current_podcast_id",
   SET_CURRENT_PODCAST = "set_current_podcast",
   PLAY = "play",
   PAUSE = "pause",
@@ -21,6 +23,7 @@ export type WebPlayerState = {
   currentTrackIndex: number;
   currentTrackId: number;
   currentPodcastId: string;
+  podcast: Podcast | undefined;
   isPlaying: boolean;
   isLooping: boolean;
   isShuffling: boolean;
@@ -38,6 +41,7 @@ const initialState: WebPlayerState = {
   currentTrackIndex: 0,
   currentTrackId: 0,
   currentPodcastId: "",
+  podcast: undefined,
   isPlaying: false,
   isLooping: false,
   isShuffling: false,
@@ -56,8 +60,12 @@ const WebPlayerReducer = (state: WebPlayerState, action: WebPlayerAction) => {
     case WebPlayerActionTypes.SET_CURRENT_TRACK: {
       return { ...state, currentTrackId: action.payload!.currentTrackId };
     }
-    case WebPlayerActionTypes.SET_CURRENT_PODCAST: {
+    case WebPlayerActionTypes.SET_CURRENT_PODCAST_ID: {
       return { ...state, currentPodcastId: action.payload!.currentPodcastId };
+    }
+    case WebPlayerActionTypes.SET_CURRENT_PODCAST: {
+      console.log(action);
+      return { ...state, podcast: action.payload!.podcast };
     }
     case WebPlayerActionTypes.PLAY: {
       return { ...state, isPlaying: true };

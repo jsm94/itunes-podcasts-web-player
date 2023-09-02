@@ -156,7 +156,9 @@ describe("App", () => {
 
     let playButton: HTMLElement;
     await waitFor(() => {
-      playButton = screen.getByRole("button", { name: /play track/i });
+      playButton = screen.getByRole("button", {
+        name: /play podcast 1437402802/i,
+      });
       expect(playButton).toBeInTheDocument();
     });
 
@@ -168,7 +170,7 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole("button", { name: /pause track/i })
+        screen.getByRole("button", { name: /pause podcast 1437402802/i })
       ).toBeInTheDocument();
     });
   });
