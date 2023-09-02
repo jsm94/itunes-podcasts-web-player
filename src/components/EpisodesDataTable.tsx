@@ -1,13 +1,16 @@
 import { useMemo } from "react";
 import { Episode } from "../modules/podcasts/domain/Episode";
 
+import { Podcast } from "../modules/podcasts/domain/Podcast";
+
+import { humanizeDiferenceDate, msToDuration } from "../utils/formatters";
+
 import {
   WebPlayerActionTypes,
   useWebPlayerContext,
   useWebPlayerDispatch,
 } from "../context/WebPlayerContext";
-import { Podcast } from "../modules/podcasts/domain/Podcast";
-import { msToDuration } from "../utils/formatters";
+
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
 import TrackDetail from "./TrackDetail";
@@ -108,7 +111,7 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
       },
       {
         render: (episode: Episode) => {
-          return new Date(episode.releaseDate).toLocaleDateString();
+          return humanizeDiferenceDate(episode.releaseDate);
         },
       },
       {

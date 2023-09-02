@@ -1,6 +1,9 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import { ROUTES } from "../constants/app.constants";
+
+import { humanizeDiferenceDate } from "../utils/formatters";
 
 import { Podcast } from "../modules/podcasts/domain/Podcast";
 
@@ -12,7 +15,6 @@ import {
 
 import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 
-import { useMemo } from "react";
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
 import TrackDetail from "./TrackDetail";
@@ -112,9 +114,7 @@ const PodcastsDataTable = ({
       },
       {
         render: (podcast: Podcast) => {
-          return (
-            <span>{new Date(podcast.releaseDate).toLocaleDateString()}</span>
-          );
+          return <span>{humanizeDiferenceDate(podcast.releaseDate)}</span>;
         },
       },
     ],

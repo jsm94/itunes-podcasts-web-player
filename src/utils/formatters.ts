@@ -1,3 +1,5 @@
+import { formatDistanceToNowStrict } from "date-fns";
+
 export const msToDuration = (ms: number | undefined): string => {
   if (!ms) return "-";
   const seconds = Math.floor((ms / 1000) % 60);
@@ -26,4 +28,10 @@ export const secondsToDuration = (seconds: number | undefined): string => {
   return `${
     hoursStr === "00" ? "" : `${hoursStr}:`
   }${minutesStr}:${secondsStr}`;
+};
+
+export const humanizeDiferenceDate = (date: Date | string): string => {
+  return formatDistanceToNowStrict(new Date(date), {
+    addSuffix: true,
+  });
 };
