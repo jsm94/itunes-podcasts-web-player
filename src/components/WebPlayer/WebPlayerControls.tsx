@@ -119,6 +119,7 @@ const WebPlayerControls = ({
         </span>
         <div className="w-[419px]">
           <Slider
+            disabled={!currentTrackId}
             onChangeCommitted={handleSeek}
             defaultValue={currentTimeCalc}
             value={currentTimeCalc}

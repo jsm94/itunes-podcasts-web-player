@@ -31,7 +31,9 @@ export const useWebPlayer = () => {
   const { currentTime: currentRefTime } = audioRef.current;
 
   const changeCurrentTime = (value: number) => {
-    audioRef.current.currentTime = (value * audioRef.current.duration) / 100;
+    const calc = (value * audioRef.current.duration) / 100;
+    if (isNaN(calc)) return;
+    audioRef.current.currentTime = calc;
     dispatch({
       type: WebPlayerActionTypes.SEEK,
       payload: {
