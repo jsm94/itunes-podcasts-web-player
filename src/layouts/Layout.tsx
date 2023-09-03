@@ -24,7 +24,7 @@ const Layout = ({ children, className }: LayoutProps) => {
 
   return (
     <div className={cn(["flex flex-col gap-[34px] pt-[30px]", className])}>
-      <header className="container flex gap-[15px] mx-auto">
+      <header className="container px-10 flex gap-[15px] mx-auto">
         {pathname !== ROUTES.HOME && (
           <Link
             to={ROUTES.HOME}
@@ -57,7 +57,7 @@ const Layout = ({ children, className }: LayoutProps) => {
           onChange={handleSearch}
         />
       </header>
-      <main className="container mx-auto min-h-[calc(100vh-32px)]">
+      <main className="container px-10 mx-auto min-h-[calc(100vh-32px)]">
         {children}
       </main>
       <footer className="sticky bottom-0">
