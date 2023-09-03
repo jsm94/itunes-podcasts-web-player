@@ -104,6 +104,7 @@ const PodcastPage = () => {
       <img height="280" src="/thumbnail.webp" alt={podcast?.title} />
       <div className="flex items-center justify-between">
         <ButtonPlay
+          disabled={!!podcast}
           onClick={handlePlay}
           isPlaying={podcastIsPlaying(podcast)}
           size={IconSizes.LARGE}
