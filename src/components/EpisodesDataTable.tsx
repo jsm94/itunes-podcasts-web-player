@@ -3,6 +3,7 @@ import { Episode } from "../modules/podcasts/domain/Episode";
 
 import { Podcast } from "../modules/podcasts/domain/Podcast";
 
+import { filterTracks } from "../utils/filters";
 import { humanizeDiferenceDate, msToDuration } from "../utils/formatters";
 
 import {
@@ -10,6 +11,8 @@ import {
   useWebPlayerContext,
   useWebPlayerDispatch,
 } from "../context/WebPlayerContext";
+
+import { useOrderByContext } from "../context/OrderByContext";
 
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
@@ -28,6 +31,7 @@ const headings = {
 const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
   const state = useWebPlayerContext();
   const dispatch = useWebPlayerDispatch();
+  const { episodesOrder } = useOrderByContext();
 
   const { currentPodcastId, currentTrackId, isPlaying } = state;
 
@@ -128,7 +132,7 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
   return (
     <DataTable
       className="w-full"
-      dataset={episodes}
+      dataset={filterTracks(episodes, episodesOrder)}
       options={{ headings, dataRenders }}
     />
   );

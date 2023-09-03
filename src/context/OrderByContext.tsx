@@ -8,6 +8,7 @@ export enum OrderByActionTypes {
 export enum Orders {
   DEFAULT = "orderBy",
   RELEASE_DATE = "releaseDate",
+  DURATION = "duration",
 }
 
 export type OrderByPayload = {

@@ -24,6 +24,7 @@ import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
 import OrderBySelect from "./OrderBySelect";
 import TrackDetail from "./TrackDetail";
+import { Option } from "./ui/Select";
 
 const headings = ["#", "Name", "Description", "Released"];
 const headingSize = ["w-auto", "w-5/12", "w-6/12", "w-1/12"];
@@ -140,7 +141,10 @@ const PodcastsDataTable = ({
         <OrderBySelect
           orderByAction={OrderByActionTypes.SET_PODCASTS_ORDER}
           defaultValue={podcastsOrder}
-        />
+        >
+          <Option value="orderBy">Order by</Option>
+          <Option value="releaseDate">Release Date</Option>
+        </OrderBySelect>
       </div>
       <DataTable
         dataset={filterTracks(podcasts, podcastsOrder)}

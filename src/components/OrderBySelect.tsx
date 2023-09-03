@@ -6,14 +6,19 @@ import {
 } from "../context/OrderByContext";
 
 import { Icon, IconSizes, Icons } from "./Icon";
-import { Option, Select } from "./ui/Select";
+import { Select } from "./ui/Select";
 
 type OrderBySelectProps = {
+  children: React.ReactNode;
   orderByAction: OrderByActionTypes;
   defaultValue?: Orders;
 };
 
-const OrderBySelect = ({ orderByAction, defaultValue }: OrderBySelectProps) => {
+const OrderBySelect = ({
+  children,
+  orderByAction,
+  defaultValue,
+}: OrderBySelectProps) => {
   const dispatch = useOrderByDispatch();
 
   const handleChange = (
@@ -44,8 +49,7 @@ const OrderBySelect = ({ orderByAction, defaultValue }: OrderBySelectProps) => {
       defaultValue={defaultValue ?? Orders.DEFAULT}
       onChange={handleChange}
     >
-      <Option value="orderBy">Order by</Option>
-      <Option value="releaseDate">Release Date</Option>
+      {children}
     </Select>
   );
 };
