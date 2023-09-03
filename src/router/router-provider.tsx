@@ -5,6 +5,7 @@ import { ROUTES } from "../constants/app.constants";
 
 import { SearchProvider } from "../context/SearchContext";
 
+import { OrderByProvider } from "../context/OrderByContext";
 import { WebPlayerProvider } from "../context/WebPlayerContext";
 import Home from "../pages/Home";
 import PodcastPage from "../pages/PodcastPage";
@@ -32,7 +33,9 @@ export const withProviders = (parentElement: React.ReactNode) => {
     <StrictMode>
       <WebPlayerProvider>
         <SearchProvider>
-          <RouterProvider router={router(parentElement)} />
+          <OrderByProvider>
+            <RouterProvider router={router(parentElement)} />
+          </OrderByProvider>
         </SearchProvider>
       </WebPlayerProvider>
     </StrictMode>

@@ -15,11 +15,14 @@ import {
 
 import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 
+import {
+  OrderByActionTypes,
+  useOrderByContext,
+} from "../context/OrderByContext";
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
-import { Icon, IconSizes, Icons } from "./Icon";
+import OrderBySelect from "./OrderBySelect";
 import TrackDetail from "./TrackDetail";
-import { Option, Select } from "./ui/Select";
 
 const headings = ["#", "Name", "Description", "Released"];
 const headingSize = ["w-auto", "w-5/12", "w-6/12", "w-1/12"];
@@ -31,6 +34,8 @@ const PodcastsDataTable = ({
 }) => {
   const dispatch = useWebPlayerDispatch();
   const state = useWebPlayerContext();
+  const { podcastsOrder } = useOrderByContext();
+
   const { getEpisodes } = usePodcasts();
 
   const { currentPodcastId, isPlaying } = state;
@@ -131,25 +136,10 @@ const PodcastsDataTable = ({
   return (
     <div className="flex gap-4 flex-col">
       <div className="flex align-center justify-end">
-        <Select
-          className="max-w-fit"
-          startAdornment={
-            <Icon
-              icon={Icons.SEARCH}
-              size={IconSizes.SMALL}
-              width="16"
-              height="16"
-              viewBox="0 0 20 20"
-            />
-          }
-          endAdornment={
-            <Icon icon={Icons.CHEVRON_DOWN} size={IconSizes.SMALL} />
-          }
-          defaultValue="orderBy"
-        >
-          <Option value="orderBy">Order by</Option>
-          <Option value="releaseDate">Release Date</Option>
-        </Select>
+        <OrderBySelect
+          orderByAction={OrderByActionTypes.SET_PODCASTS_ORDER}
+          defaultValue={podcastsOrder}
+        />
       </div>
       <DataTable
         dataset={podcasts}
