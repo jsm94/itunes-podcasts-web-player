@@ -15,7 +15,7 @@ type DataRender = {
 };
 
 type DataHeadings = {
-  data: string[];
+  data: string[] | ReactNode[];
   sizes: string[];
   className?: string;
 };
@@ -49,7 +49,7 @@ const DataTable = ({ className, dataset, options }: DataTableProps) => {
                 "text-white pb-6 border-b border-white border-opacity-5 text-opacity-30 text-sm font-semibold text-left",
                 headingClassName,
               ])}
-              key={heading}
+              key={`table-header-${i}`}
             >
               {heading}
             </TableHeader>

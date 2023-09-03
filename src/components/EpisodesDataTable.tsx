@@ -16,6 +16,7 @@ import { useOrderByContext } from "../context/OrderByContext";
 
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
+import { Icon, Icons } from "./Icon";
 import TrackDetail from "./TrackDetail";
 
 type EpisodesDataTableProps = {
@@ -24,7 +25,15 @@ type EpisodesDataTableProps = {
 };
 
 const headings = {
-  data: ["#", "Title", "Topic", "Released", "⏱"],
+  data: [
+    "#",
+    "Title",
+    "Topic",
+    "Released",
+    <div className="pl-4 pt-1">
+      <Icon icon={Icons.CLOCK} />
+    </div>,
+  ],
   sizes: ["w-auto", "w-5/12", "w-6/12", "w-1/12", "w-2/12"],
 };
 
