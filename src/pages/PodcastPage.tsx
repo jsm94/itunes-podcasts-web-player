@@ -36,13 +36,11 @@ const PodcastPage = () => {
   };
 
   const podcastIsPlaying = (podcast?: Podcast) => {
-    console.log(podcast?.id, currentPodcastId, isPlaying);
     return podcast?.id === currentPodcastId && isPlaying;
   };
 
   const handlePlay = () => {
     if (podcast?.id !== currentPodcastId) {
-      console.log("entra");
       dispatch({
         type: WebPlayerActionTypes.SET_TRACKS,
         payload: {

@@ -19,6 +19,7 @@ import {
   OrderByActionTypes,
   useOrderByContext,
 } from "../context/OrderByContext";
+import { filterTracks } from "../utils/filters";
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
 import OrderBySelect from "./OrderBySelect";
@@ -142,7 +143,7 @@ const PodcastsDataTable = ({
         />
       </div>
       <DataTable
-        dataset={podcasts}
+        dataset={filterTracks(podcasts, podcastsOrder)}
         options={{
           headings: {
             data: headings,
