@@ -56,13 +56,6 @@ const PodcastPage = () => {
         },
       });
       dispatch({
-        type: WebPlayerActionTypes.SET_TRACK_INDEX,
-        payload: {
-          ...state,
-          currentTrackIndex: 0,
-        },
-      });
-      dispatch({
         type: WebPlayerActionTypes.SET_CURRENT_PODCAST_ID,
         payload: {
           ...state,
@@ -74,6 +67,13 @@ const PodcastPage = () => {
         payload: {
           ...state,
           podcast: podcast,
+        },
+      });
+      dispatch({
+        type: WebPlayerActionTypes.SET_TRACK_INDEX,
+        payload: {
+          ...state,
+          currentTrackIndex: 0,
         },
       });
     }

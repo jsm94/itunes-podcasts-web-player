@@ -86,6 +86,14 @@ const PodcastsDataTable = ({
         currentPodcastId: podcast.id,
       },
     });
+
+    dispatch({
+      type: WebPlayerActionTypes.SET_TRACK_INDEX,
+      payload: {
+        ...state,
+        currentTrackIndex: 0,
+      },
+    });
   };
 
   const dataTableRender = useMemo(
