@@ -40,6 +40,8 @@ The two views shares the same layout.
 
 - [x] Should be show on top of the page the podcasts filterbar component.
 - [x] Should be show at the bottom the web player.
+- [] ErroBoundary page.
+- [] Not found page.
 
 ### Web Player
 
@@ -63,6 +65,8 @@ URL: `/`
 - [x] Can order the list by a chosen property from the dropdown "Order by".
 - [x] Click on a podcast should navigate to the podcast detail view.
 - [x] Can start to play podcast episodes clicking on the play button. We can stop what we are currently listen and resume it again from this button.
+- [] Show feedback when loading podcast results
+- [] When click on play, if its retrieving data from server, show an indicator.
 
 ### Podcast detail view
 
@@ -76,6 +80,7 @@ According to this endpoint:
 - [x] The podcast detail should be cached for 1 day to not make the API call again while cached.
 - [x] The list should be a data table with the headers Title, Topic, Released and Duration.
 - [x] Click on the play/pause button from an episode title should start/stop/resume the episode.
+- [x] When type on search bar go back to home.
 
 > Service for external resources that not allow JSON neither CORS headers: `https://allorigins.win`
 
@@ -101,9 +106,9 @@ Following the assestment guidelines and making some assumptions and opinions for
 - **create-react-app**: for not using a pre-configured bundler and fine-tune this project from the start.
 - **TypeScript**: a JavaScript superset to improve development experience and maintainability with types and interfaces.
 - **TailwindCSS**: a CSS classes library to prototyping faster
+- **MUI/Base**: to make reusable component
 - **Jest & React Testing Library**: for testing purpouses
-- **ESLint & Prettier**: for ensuring code quality, consistency, and adherence to coding standards.
-- **Husky**: for run tests, lint and format before a commit to ensure code quality.
+- **ESLint**: for ensuring code quality, consistency, and adherence to coding standards.
 - **React Router Dom v6**: to manage navigation
 
 I also decided to implement a **hexagonal architecture** and **DDD** for better scalability and testable code.
@@ -135,6 +140,10 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run test:coverage`
+
+Launches the test runner in the interactive watch mode and build the coverage report.
 
 ### `npm run build`
 
