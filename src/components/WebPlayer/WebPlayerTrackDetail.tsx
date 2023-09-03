@@ -9,11 +9,12 @@ const WebPlayerTrackDetail = ({
   podcast: Podcast | undefined;
 }) => {
   return (
-    <div className="flex w-[480px] items-center gap-4">
+    <div className="flex min-h-[50px] w-[480px] items-center gap-4">
       <img
+        className="outline-0"
         width="110"
         height="110"
-        src={track?.image ?? podcast?.image}
+        src={track?.image ?? podcast?.image ?? "/track-placeholder.webp"}
         alt={track?.title ?? podcast?.title}
       />
       <div className="flex flex-col">
