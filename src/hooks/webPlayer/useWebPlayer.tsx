@@ -30,6 +30,17 @@ export const useWebPlayer = () => {
   const audioRef = useRef(new Audio());
   const { currentTime: currentRefTime } = audioRef.current;
 
+  const changeCurrentTime = (value: number) => {
+    audioRef.current.currentTime = (value * audioRef.current.duration) / 100;
+    dispatch({
+      type: WebPlayerActionTypes.SEEK,
+      payload: {
+        ...state,
+        currentTime: value,
+      },
+    });
+  };
+
   const shuffleTracks = (tracks: Episode[]) => {
     const beforeCurrent = tracks.slice(0, currentTrackIndex);
     const afterCurrent = tracks.slice(currentTrackIndex + 1);
@@ -154,5 +165,6 @@ export const useWebPlayer = () => {
     tracksPlaying,
     currentTrackIndex,
     currentTimeCalc,
+    changeCurrentTime,
   };
 };

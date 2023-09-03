@@ -7,7 +7,12 @@ import WebPlayerTrackDetail from "./WebPlayerTrackDetail";
 import WebPlayerVolumeController from "./WebPlayerVolumeController";
 
 const WebPlayer = () => {
-  const { tracksPlaying, currentTrackIndex, currentTimeCalc } = useWebPlayer();
+  const {
+    tracksPlaying,
+    currentTrackIndex,
+    currentTimeCalc,
+    changeCurrentTime,
+  } = useWebPlayer();
   const state = useWebPlayerContext();
   const { podcast } = state;
 
@@ -20,6 +25,7 @@ const WebPlayer = () => {
         currentTimeCalc={currentTimeCalc}
         currentTrackIndex={currentTrackIndex}
         tracksPlaying={tracksPlaying}
+        changeCurrentTime={changeCurrentTime}
       />
       <WebPlayerVolumeController />
     </div>

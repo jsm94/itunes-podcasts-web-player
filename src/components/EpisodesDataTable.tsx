@@ -56,6 +56,14 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
           currentPodcastId: podcast?.id as string,
         },
       });
+
+      dispatch({
+        type: WebPlayerActionTypes.SET_CURRENT_PODCAST,
+        payload: {
+          ...state,
+          podcast: podcast,
+        },
+      });
     }
 
     if (trackIsPlaying(episode)) {

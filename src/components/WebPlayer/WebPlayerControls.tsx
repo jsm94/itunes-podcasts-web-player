@@ -17,10 +17,12 @@ const WebPlayerControls = ({
   tracksPlaying,
   currentTrackIndex,
   currentTimeCalc,
+  changeCurrentTime,
 }: {
   tracksPlaying: Episode[] | undefined;
   currentTrackIndex: number;
   currentTimeCalc: number;
+  changeCurrentTime: (value: number) => void;
 }) => {
   const state = useWebPlayerContext();
   const { currentTime, isLooping, isShuffling, isPlaying, currentTrackId } =
@@ -65,9 +67,16 @@ const WebPlayerControls = ({
     });
   };
 
+  const handleSeek = (
+    event: Event | React.SyntheticEvent<Element, Event>,
+    value: number | number[]
+  ) => {
+    changeCurrentTime(value as number);
+  };
+
   return (
-    <div className="flex items-center gap-[50px]">
-      <div className="flex gap-[30px]">
+    <div className="flex items-center gap-10">
+      <div className="flex gap-4">
         <ButtonWebPlayer
           icon={Icons.SHUFFLE}
           onClick={handleShuffle}
@@ -106,13 +115,17 @@ const WebPlayerControls = ({
             currentTime && "text-opacity-100"
           )}
         >
-          {currentTime ? secondsToDuration(currentTime) : "0:00"}
+          {currentTime ? secondsToDuration(currentTime) : "-:--"}
         </span>
         <div className="w-[419px]">
-          <Slider defaultValue={currentTimeCalc} value={currentTimeCalc} />
+          <Slider
+            onChangeCommitted={handleSeek}
+            defaultValue={currentTimeCalc}
+            value={currentTimeCalc}
+          />
         </div>
         <span className="text-white text-opacity-30 text-base font-medium">
-          {currentTrack ? msToDuration(currentTrack.duration) : "0:00"}
+          {currentTrack ? msToDuration(currentTrack.duration) : "-:--"}
         </span>
       </div>
     </div>
