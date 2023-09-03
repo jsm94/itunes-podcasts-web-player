@@ -32,7 +32,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ---
 
-## Requirements
+## Requirements & Assumptions
 
 ### Layout
 
@@ -57,10 +57,10 @@ URL: `/`
       `https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json`
 - [x] The list results should be cached for 1 day to not make the API call again while cached.
 - [x] The list should be a data table with the headers Name, Description and Released.
-- [ ] The "Released" field should show an human readable moment.
+- [x] The "Released" field should show an human readable moment.
 - [x] The users could filter the podcast list by writing on the input search. The string should match with podcast title and/or author's name.
 - [x] The list should react immediately with the filter while typing.
-- [ ] Can order the list by a chosen property from the dropdown "Order by".
+- [x] Can order the list by a chosen property from the dropdown "Order by".
 - [x] Click on a podcast should navigate to the podcast detail view.
 - [x] Can start to play podcast episodes clicking on the play button. We can stop what we are currently listen and resume it again from this button.
 
@@ -71,8 +71,8 @@ URL: `/podcast/{podcastId}`
 According to this endpoint:
 `https://itunes.apple.com/lookup?id=934552872&media=podcast&entity=podcastEpisode&limit=20`
 
-- [ ] Should show a banner with the podcast image.
-- [ ] Under the banner should show play/pause button, the title and the "Order by" dropdown
+- [x] Should show a banner with the podcast image.
+- [x] Under the banner should show play/pause button, the title and the "Order by" dropdown
 - [x] The podcast detail should be cached for 1 day to not make the API call again while cached.
 - [x] The list should be a data table with the headers Title, Topic, Released and Duration.
 - [x] Click on the play/pause button from an episode title should start/stop/resume the episode.
@@ -85,6 +85,12 @@ URL: `/podcast/{podcastId}/episode/{episodeId}`
 
 - [x] Should show the same sidebar from the previous view. The podcast title and author should be links to the podcast detail view.
 - [x] Should show a main section with the episode title, description and an HTML5 audio player to play the podcast. The HTML descriptions should be interpreted not escaped.
+
+### Assumptions
+
+- Search bar only filter on podcasts data table
+- Search state should keep on context
+- On podcast data table can order by "Release Date", on episode data table can order by "Duration"
 
 ---
 
