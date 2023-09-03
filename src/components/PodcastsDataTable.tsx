@@ -17,7 +17,9 @@ import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
+import { Icon, IconSizes, Icons } from "./Icon";
 import TrackDetail from "./TrackDetail";
+import { Option, Select } from "./ui/Select";
 
 const headings = ["#", "Name", "Description", "Released"];
 const headingSize = ["w-auto", "w-5/12", "w-6/12", "w-1/12"];
@@ -127,16 +129,39 @@ const PodcastsDataTable = ({
   if (!podcasts) return null;
 
   return (
-    <DataTable
-      dataset={podcasts}
-      options={{
-        headings: {
-          data: headings,
-          sizes: headingSize,
-        },
-        dataRenders: dataTableRender,
-      }}
-    />
+    <div className="flex gap-4 flex-col">
+      <div className="flex align-center justify-end">
+        <Select
+          className="max-w-fit"
+          startAdornment={
+            <Icon
+              icon={Icons.SEARCH}
+              size={IconSizes.SMALL}
+              width="16"
+              height="16"
+              viewBox="0 0 20 20"
+            />
+          }
+          endAdornment={
+            <Icon icon={Icons.CHEVRON_DOWN} size={IconSizes.SMALL} />
+          }
+          defaultValue="orderBy"
+        >
+          <Option value="orderBy">Order by</Option>
+          <Option value="releaseDate">Release Date</Option>
+        </Select>
+      </div>
+      <DataTable
+        dataset={podcasts}
+        options={{
+          headings: {
+            data: headings,
+            sizes: headingSize,
+          },
+          dataRenders: dataTableRender,
+        }}
+      />
+    </div>
   );
 };
 
