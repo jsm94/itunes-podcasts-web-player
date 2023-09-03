@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useSearchDispatch } from "../context/SearchContext";
 
@@ -16,16 +16,20 @@ type LayoutProps = {
 
 const Layout = ({ children, className }: LayoutProps) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const dispatch = useSearchDispatch();
 
+  const isHomePage = pathname === ROUTES.HOME;
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isHomePage) navigate(ROUTES.HOME);
     dispatch(event.target.value);
   };
 
   return (
     <div className={cn(["flex flex-col gap-[34px] pt-[30px]", className])}>
       <header className="container px-10 flex gap-[15px] mx-auto">
-        {pathname !== ROUTES.HOME && (
+        {!isHomePage && (
           <Link
             to={ROUTES.HOME}
             className="flex p-[13px] items-center align-center hover:bg-zinc-700 focus:bg-zinc-700 focus:outline-0 bg-eerie-black rounded-[15px]"
