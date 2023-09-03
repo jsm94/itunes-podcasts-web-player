@@ -24,11 +24,11 @@ const Layout = ({ children, className }: LayoutProps) => {
 
   return (
     <div className={cn(["flex flex-col gap-[34px] pt-[30px]", className])}>
-      <header className="container flex gap-4 mx-auto">
+      <header className="container flex gap-[15px] mx-auto">
         {pathname !== ROUTES.HOME && (
           <Link
             to={ROUTES.HOME}
-            className="flex p-[15px] items-center align-center hover:bg-zinc-700 focus:bg-zinc-700 focus:outline-0 bg-eerie-black rounded-[15px]"
+            className="flex p-[13px] items-center align-center hover:bg-zinc-700 focus:bg-zinc-700 focus:outline-0 bg-eerie-black rounded-[15px]"
           >
             <Icon
               icon={Icons.BACK}
