@@ -19,9 +19,11 @@ import {
   OrderByActionTypes,
   useOrderByContext,
 } from "../context/OrderByContext";
+import { useSearch } from "../context/SearchContext";
 import { filterTracks } from "../utils/filters";
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
+import DataTableSkeleton from "./DataTableSkeleton";
 import OrderBySelect from "./OrderBySelect";
 import TrackDetail from "./TrackDetail";
 import { Option } from "./ui/Select";
@@ -36,6 +38,7 @@ const PodcastsDataTable = ({
 }) => {
   const dispatch = useWebPlayerDispatch();
   const state = useWebPlayerContext();
+  const search = useSearch();
   const { podcastsOrder } = useOrderByContext();
 
   const { getEpisodes } = usePodcasts();
@@ -141,7 +144,9 @@ const PodcastsDataTable = ({
     [podcastIsPlaying]
   );
 
-  if (!podcasts) return null;
+  if (!podcasts?.length && !search) return <DataTableSkeleton />;
+  if (!podcasts?.length)
+    return <div className="text-white">No results found</div>;
 
   return (
     <div className="flex gap-4 flex-col">
@@ -155,7 +160,7 @@ const PodcastsDataTable = ({
         </OrderBySelect>
       </div>
       <DataTable
-        dataset={filterTracks(podcasts, podcastsOrder)}
+        dataset={filterTracks(podcasts!, podcastsOrder)}
         options={{
           headings: {
             data: headings,

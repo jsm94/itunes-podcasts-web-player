@@ -8,6 +8,8 @@ import { SearchProvider } from "./context/SearchContext";
 import { withProviders } from "./router/router-provider";
 
 import App from "./App";
+import { OrderByProvider } from "./context/OrderByContext";
+import { WebPlayerProvider } from "./context/WebPlayerContext";
 
 const mocks = {
   Audio: {
@@ -22,9 +24,13 @@ const mocks = {
 const renderWithProviders = () => {
   return render(
     withProviders(
-      <SearchProvider>
-        <App />
-      </SearchProvider>
+      <WebPlayerProvider>
+        <SearchProvider>
+          <OrderByProvider>
+            <App />
+          </OrderByProvider>
+        </SearchProvider>
+      </WebPlayerProvider>
     )
   );
 };
@@ -172,6 +178,26 @@ describe("App", () => {
       expect(
         screen.getByRole("button", { name: /pause podcast 1437402802/i })
       ).toBeInTheDocument();
+    });
+  });
+
+  test("should show a loader placeholder while podcast is retrieving data", async () => {
+    renderWithProviders();
+
+    const podcastName = /A History of Rock Music in 500 Songs/i;
+    let podcast: HTMLElement;
+
+    await waitFor(() => {
+      expect(screen.getByRole("status")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      podcast = screen.getByText(podcastName);
+      expect(podcast).toBeInTheDocument();
     });
   });
 });

@@ -12,6 +12,7 @@ const Home = () => {
   const search = useSearch();
 
   const [filteredPodcasts, setPodcasts] = useState<Podcast[] | undefined>([]);
+
   const { getPodcasts } = usePodcasts();
 
   const podcastsRef = useRef<Podcast[] | undefined>([]);

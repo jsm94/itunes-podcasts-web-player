@@ -12,6 +12,7 @@ import {
 import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 
 import ButtonPlay from "../components/ButtonPlay";
+import DataTableSkeleton from "../components/DataTableSkeleton";
 import EpisodesDataTable from "../components/EpisodesDataTable";
 import { Icon, IconSizes, Icons } from "../components/Icon";
 import OrderBySelect from "../components/OrderBySelect";
@@ -121,7 +122,10 @@ const PodcastPage = () => {
           <Option value="duration">Duration</Option>
         </OrderBySelect>
       </div>
-      <EpisodesDataTable podcast={podcast} episodes={episodes} />
+      {!episodes?.length && <DataTableSkeleton />}
+      {episodes?.length && (
+        <EpisodesDataTable podcast={podcast} episodes={episodes} />
+      )}
     </div>
   );
 };
