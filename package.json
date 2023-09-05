@@ -1,6 +1,6 @@
 {
   "name": "itunes-podcasts-web-player",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "dependencies": {
     "@mui/base": "^5.0.0-beta.13",
