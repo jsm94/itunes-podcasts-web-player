@@ -3,20 +3,27 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import { ROUTES } from "../constants/app.constants";
 
-import { SearchProvider } from "../context/SearchContext";
-
-import { ErrorBoundary } from "../components/ErrorBoundary";
 import { OrderByProvider } from "../context/OrderByContext";
+import { SearchProvider } from "../context/SearchContext";
 import { WebPlayerProvider } from "../context/WebPlayerContext";
+
+import ErrorLayout from "../layouts/ErrorLayout";
+
 import Home from "../pages/Home";
 import PodcastPage from "../pages/PodcastPage";
+
+import { ErrorBoundary } from "../components/ErrorBoundary";
 
 const router = (parentElement: React.ReactNode) =>
   createBrowserRouter([
     {
       path: ROUTES.HOME,
       element: parentElement,
-      ErrorBoundary: ErrorBoundary,
+      errorElement: (
+        <ErrorLayout>
+          <ErrorBoundary />
+        </ErrorLayout>
+      ),
       children: [
         {
           path: ROUTES.HOME,
@@ -25,6 +32,10 @@ const router = (parentElement: React.ReactNode) =>
         {
           path: ROUTES.PODCAST_DETAIL,
           element: <PodcastPage />,
+        },
+        {
+          path: ROUTES.NOT_FOUND,
+          element: <ErrorBoundary />,
         },
       ],
     },

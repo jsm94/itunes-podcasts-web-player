@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Episode } from "../modules/podcasts/domain/Episode";
 import { Podcast } from "../modules/podcasts/domain/Podcast";
@@ -17,6 +17,7 @@ import EpisodesDataTable from "../components/EpisodesDataTable";
 import { Icon, IconSizes, Icons } from "../components/Icon";
 import OrderBySelect from "../components/OrderBySelect";
 import { Option } from "../components/ui/Select";
+import { ROUTES } from "../constants/app.constants";
 import {
   OrderByActionTypes,
   useOrderByContext,
@@ -24,6 +25,7 @@ import {
 
 const PodcastPage = () => {
   const param = useParams();
+  const navigate = useNavigate();
   const state = useWebPlayerContext();
   const dispatch = useWebPlayerDispatch();
   const { episodesOrder } = useOrderByContext();
@@ -35,6 +37,8 @@ const PodcastPage = () => {
 
   const loadPodcastData = async () => {
     const podcasts = await getPodcasts();
+    const podcastFinded = podcasts?.find((podcast) => podcast.id === param.id);
+    if (!podcastFinded) navigate(ROUTES.NOT_FOUND);
     setPodcast(podcasts?.find((podcast) => podcast.id === param.id));
   };
 
