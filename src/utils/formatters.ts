@@ -35,3 +35,12 @@ export const humanizeDiferenceDate = (date: Date | string): string => {
     addSuffix: true,
   });
 };
+
+export const parseLongUrl = (text: string | undefined) => {
+  // detect urls on text and shortening them
+  return text
+    ? text.replace(/(https?:\/\/[^\s]+)/g, (url) =>
+        url.length > 50 ? `${url.substring(0, 50)}...` : url
+      )
+    : "";
+};

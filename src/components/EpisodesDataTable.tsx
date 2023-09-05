@@ -4,7 +4,11 @@ import { Episode } from "../modules/podcasts/domain/Episode";
 import { Podcast } from "../modules/podcasts/domain/Podcast";
 
 import { filterTracks } from "../utils/filters";
-import { humanizeDiferenceDate, msToDuration } from "../utils/formatters";
+import {
+  humanizeDiferenceDate,
+  msToDuration,
+  parseLongUrl,
+} from "../utils/formatters";
 
 import {
   WebPlayerActionTypes,
@@ -127,7 +131,11 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
       },
       {
         render: (episode: Episode) => {
-          return <span className="line-clamp-2">{episode.description}</span>;
+          return (
+            <span className="line-clamp-2">
+              {parseLongUrl(episode.description)}
+            </span>
+          );
         },
       },
       {

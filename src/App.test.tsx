@@ -39,6 +39,8 @@ describe("App", () => {
   beforeEach(() => {
     window.history.pushState({}, "", "/");
 
+    global.scrollTo = jest.fn();
+
     global.fetch = jest.fn((url) => {
       if (
         url ===
