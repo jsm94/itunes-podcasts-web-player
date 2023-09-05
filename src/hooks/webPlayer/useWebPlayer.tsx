@@ -12,7 +12,6 @@ export const useWebPlayer = () => {
   const state = useWebPlayerContext();
   const {
     tracks,
-    currentTime,
     currentTrackIndex,
     currentTrackId,
     isLooping,
@@ -112,7 +111,7 @@ export const useWebPlayer = () => {
   };
 
   useEffect(() => {
-    if (!tracks.length) return;
+    if (!tracks?.length) return;
     let tracksResult = tracks;
     if (isShuffling) tracksResult = shuffleTracks(tracks);
     tracksPlayingRef.current = tracksResult;
