@@ -61,9 +61,6 @@ const PodcastsDataTable = ({
 
   const handlePlay = async (podcast: Podcast) => {
     if (podcastIsPlaying(podcast)) {
-      dispatch({
-        type: WebPlayerActionTypes.PAUSE,
-      });
       trackDispatcher({
         type: TrackActionTypes.PAUSE,
       });
@@ -71,9 +68,6 @@ const PodcastsDataTable = ({
     }
 
     if (podcast.id === currentPodcastId && !isPlaying) {
-      dispatch({
-        type: WebPlayerActionTypes.PLAY,
-      });
       trackDispatcher({
         type: TrackActionTypes.PLAY,
       });
@@ -100,13 +94,6 @@ const PodcastsDataTable = ({
       },
     });
 
-    dispatch({
-      type: WebPlayerActionTypes.SET_CURRENT_PODCAST_ID,
-      payload: {
-        ...state,
-        currentPodcastId: podcast.id,
-      },
-    });
     trackDispatcher({
       type: TrackActionTypes.SET_CURRENT_PODCAST_ID,
       payload: {

@@ -93,13 +93,6 @@ export const useWebPlayer = () => {
     try {
       await audioRef.current.play();
 
-      dispatch({
-        type: WebPlayerActionTypes.SET_CURRENT_TRACK,
-        payload: {
-          ...state,
-          currentTrackId: tracksPlayingRef.current![index].id!,
-        },
-      });
       trackDispatcher({
         type: TrackActionTypes.SET_CURRENT_TRACK_ID,
         payload: {
@@ -108,8 +101,8 @@ export const useWebPlayer = () => {
         },
       });
 
-      dispatch({
-        type: WebPlayerActionTypes.PLAY,
+      trackDispatcher({
+        type: TrackActionTypes.PLAY,
       });
     } catch (error) {
       console.log(error);

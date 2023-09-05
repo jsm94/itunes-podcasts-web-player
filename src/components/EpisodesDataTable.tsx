@@ -68,13 +68,6 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
         },
       });
 
-      dispatch({
-        type: WebPlayerActionTypes.SET_CURRENT_PODCAST_ID,
-        payload: {
-          ...state,
-          currentPodcastId: podcast?.id as string,
-        },
-      });
       trackDispatcher({
         type: TrackActionTypes.SET_CURRENT_PODCAST_ID,
         payload: {
@@ -93,9 +86,6 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
     }
 
     if (trackIsPlaying(episode)) {
-      dispatch({
-        type: WebPlayerActionTypes.PAUSE,
-      });
       trackDispatcher({
         type: TrackActionTypes.PAUSE,
       });
@@ -103,22 +93,12 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
     }
 
     if (episode.id === currentTrackId && !isPlaying) {
-      dispatch({
-        type: WebPlayerActionTypes.PLAY,
-      });
       trackDispatcher({
         type: TrackActionTypes.PLAY,
       });
       return;
     }
 
-    dispatch({
-      type: WebPlayerActionTypes.SET_CURRENT_TRACK,
-      payload: {
-        ...state,
-        currentTrackId: episode.id,
-      },
-    });
     trackDispatcher({
       type: TrackActionTypes.SET_CURRENT_TRACK_ID,
       payload: {

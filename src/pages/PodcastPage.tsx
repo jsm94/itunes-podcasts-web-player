@@ -5,10 +5,20 @@ import { Episode } from "../modules/podcasts/domain/Episode";
 import { Podcast } from "../modules/podcasts/domain/Podcast";
 
 import {
+  OrderByActionTypes,
+  useOrderByContext,
+} from "../context/OrderByContext";
+import {
+  TrackActionTypes,
+  useTrackContext,
+  useTrackDispatch,
+} from "../context/TrackContext";
+import {
   WebPlayerActionTypes,
   useWebPlayerContext,
   useWebPlayerDispatch,
 } from "../context/WebPlayerContext";
+
 import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 
 import ButtonPlay from "../components/ButtonPlay";
@@ -18,20 +28,15 @@ import { Icon, IconSizes, Icons } from "../components/Icon";
 import OrderBySelect from "../components/OrderBySelect";
 import { Option } from "../components/ui/Select";
 import { ROUTES } from "../constants/app.constants";
-import {
-  OrderByActionTypes,
-  useOrderByContext,
-} from "../context/OrderByContext";
-import { TrackActionTypes, useTrackDispatch } from "../context/TrackContext";
 
 const PodcastPage = () => {
   const param = useParams();
   const navigate = useNavigate();
   const state = useWebPlayerContext();
+  const { currentPodcastId, isPlaying } = useTrackContext();
   const dispatch = useWebPlayerDispatch();
   const trackDispatcher = useTrackDispatch();
   const { episodesOrder } = useOrderByContext();
-  const { currentPodcastId, isPlaying } = state;
 
   const [podcast, setPodcast] = useState<Podcast>();
   const [episodes, setEpisodes] = useState<Episode[]>();
@@ -62,13 +67,7 @@ const PodcastPage = () => {
           tracks: episodes!,
         },
       });
-      dispatch({
-        type: WebPlayerActionTypes.SET_CURRENT_PODCAST_ID,
-        payload: {
-          ...state,
-          currentPodcastId: podcast?.id as string,
-        },
-      });
+
       trackDispatcher({
         type: TrackActionTypes.SET_CURRENT_PODCAST_ID,
         payload: {
@@ -94,18 +93,12 @@ const PodcastPage = () => {
     }
 
     if (podcastIsPlaying(podcast!)) {
-      dispatch({
-        type: WebPlayerActionTypes.PAUSE,
-      });
       trackDispatcher({
         type: TrackActionTypes.PAUSE,
       });
       return;
     }
 
-    dispatch({
-      type: WebPlayerActionTypes.PLAY,
-    });
     trackDispatcher({
       type: TrackActionTypes.PLAY,
     });

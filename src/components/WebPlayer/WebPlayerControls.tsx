@@ -39,17 +39,11 @@ const WebPlayerControls = ({
 
   const handlePlay = () => {
     if (isPlaying) {
-      dispatch({
-        type: WebPlayerActionTypes.PAUSE,
-      });
       trackDispatcher({
         type: TrackActionTypes.PAUSE,
       });
       return;
     }
-    dispatch({
-      type: WebPlayerActionTypes.PLAY,
-    });
     trackDispatcher({
       type: TrackActionTypes.PLAY,
     });
