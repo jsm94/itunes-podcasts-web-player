@@ -26,6 +26,7 @@ import {
 import { usePodcasts } from "../hooks/podcasts/usePodcasts";
 
 import { filterTracks } from "../utils/filters";
+import { cn } from "../utils/helpers";
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
 import DataTableSkeleton from "./DataTableSkeleton";
@@ -134,8 +135,13 @@ const PodcastsDataTable = ({
       render: (podcast: Podcast) => {
         return (
           <Link
-            to={`${ROUTES.PODCAST}/${podcast.id}`}
-            className="flex hover:bg-zinc-700 focus:bg-zinc-700 focus:outline-0 rounded-[15px]"
+            to={
+              podcastIsLoading(podcast) ? "" : `${ROUTES.PODCAST}/${podcast.id}`
+            }
+            className={cn(
+              "flex hover:bg-zinc-700 focus:bg-zinc-700 focus:outline-0 rounded-[15px]",
+              podcastIsLoading(podcast) && "opacity-50"
+            )}
           >
             <TrackDetail
               image={podcast.image}
@@ -182,7 +188,7 @@ const PodcastsDataTable = ({
         />
       </div>
     ),
-    [podcasts, podcastsOrder, currentPodcastId, isPlaying]
+    [podcasts, podcastsOrder, currentPodcastId, isPlaying, podcastLoading]
   );
 
   if (!podcasts?.length && !search) return <DataTableSkeleton />;

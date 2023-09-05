@@ -11,6 +11,9 @@ export const filterTracks = (
   elements: Podcast[] | Episode[],
   order: Orders
 ) => {
+  if (!elements) {
+    return [];
+  }
   return [...elements].sort((a, b) => {
     if (order === Orders.DEFAULT) {
       return 0;

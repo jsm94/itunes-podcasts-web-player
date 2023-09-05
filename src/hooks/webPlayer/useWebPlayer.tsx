@@ -143,7 +143,11 @@ export const useWebPlayer = () => {
     if (!isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      try {
+        audioRef.current.play();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [isPlaying]);
 

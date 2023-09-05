@@ -125,7 +125,9 @@ const PodcastPage = () => {
           size={IconSizes.LARGE}
         />
         <div className="flex items-center gap-2">
-          <h1 className="text-white text-[32px] font-bold">{podcast?.title}</h1>
+          <h1 className="m-w-[480px] text-white text-[32px] font-bold">
+            {podcast?.title}
+          </h1>
           <Icon icon={Icons.VERIFY} size={IconSizes.MEDIUM} />
         </div>
         <OrderBySelect
