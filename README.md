@@ -2,6 +2,8 @@
 
 This technical assessment consists of a mini-app with a webplayer to listen to music podcasts from iTunes services.
 
+🔗 [https://itunes-podcasts-web-player.vercel.app/](https://itunes-podcasts-web-player.vercel.app/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ---
@@ -40,8 +42,8 @@ The two views shares the same layout.
 
 - [x] Should be show on top of the page the podcasts filterbar component.
 - [x] Should be show at the bottom the web player.
-- [] ErroBoundary page.
-- [] Not found page.
+- [x] ErroBoundary page.
+- [x] Not found page.
 
 ### Web Player
 
@@ -65,8 +67,8 @@ URL: `/`
 - [x] Can order the list by a chosen property from the dropdown "Order by".
 - [x] Click on a podcast should navigate to the podcast detail view.
 - [x] Can start to play podcast episodes clicking on the play button. We can stop what we are currently listen and resume it again from this button.
-- [] Show feedback when loading podcast results
-- [] When click on play, if its retrieving data from server, show an indicator.
+- [x] Show feedback when loading podcast results
+- [x] When click on play, if its retrieving data from server, show an indicator.
 
 ### Podcast detail view
 
@@ -91,7 +93,7 @@ URL: `/podcast/{podcastId}/episode/{episodeId}`
 - [x] Should show the same sidebar from the previous view. The podcast title and author should be links to the podcast detail view.
 - [x] Should show a main section with the episode title, description and an HTML5 audio player to play the podcast. The HTML descriptions should be interpreted not escaped.
 
-### Assumptions
+### Other Assumptions
 
 - Search bar only filter on podcasts data table
 - Search state should keep on context
@@ -123,6 +125,11 @@ Minimal versions:
 
 - _Node v18.X_
 - _npm 9.6.7_
+
+### How to start
+
+1. `npm install`
+2. `npm start`
 
 ### Scripts
 
