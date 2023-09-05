@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import {
   WebPlayerActionTypes,
   useWebPlayerContext,
@@ -36,4 +38,4 @@ const WebPlayerVolumeController = () => {
   );
 };
 
-export default WebPlayerVolumeController;
+export default memo(WebPlayerVolumeController);

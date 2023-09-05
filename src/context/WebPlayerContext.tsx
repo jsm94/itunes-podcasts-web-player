@@ -10,7 +10,6 @@ export enum WebPlayerActionTypes {
   PREV = "prev",
   LOOP = "loop",
   SHUFFLE = "shuffle",
-  SEEK = "seek",
   SET_VOLUME = "set_volume",
 }
 
@@ -21,7 +20,6 @@ export type WebPlayerState = {
   isLooping: boolean;
   isShuffling: boolean;
   volume: number;
-  currentTime: number;
 };
 
 export type WebPlayerAction = {
@@ -36,7 +34,6 @@ const initialState: WebPlayerState = {
   isLooping: false,
   isShuffling: false,
   volume: 0.02,
-  currentTime: 0,
 };
 
 const WebPlayerReducer = (state: WebPlayerState, action: WebPlayerAction) => {
@@ -69,9 +66,6 @@ const WebPlayerReducer = (state: WebPlayerState, action: WebPlayerAction) => {
     }
     case WebPlayerActionTypes.SHUFFLE: {
       return { ...state, isShuffling: !state.isShuffling };
-    }
-    case WebPlayerActionTypes.SEEK: {
-      return { ...state, currentTime: action.payload!.currentTime };
     }
     case WebPlayerActionTypes.SET_VOLUME: {
       return { ...state, volume: action.payload!.volume };

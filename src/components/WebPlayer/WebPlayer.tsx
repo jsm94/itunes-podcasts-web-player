@@ -10,6 +10,7 @@ const WebPlayer = () => {
   const {
     tracksPlaying,
     currentTrackIndex,
+    currentRefTime,
     currentTimeCalc,
     changeCurrentTime,
   } = useWebPlayer();
@@ -24,6 +25,7 @@ const WebPlayer = () => {
       <WebPlayerControls
         currentTimeCalc={currentTimeCalc}
         currentTrackIndex={currentTrackIndex}
+        currentTime={currentRefTime}
         tracksPlaying={tracksPlaying}
         changeCurrentTime={changeCurrentTime}
       />

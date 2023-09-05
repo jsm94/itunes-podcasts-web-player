@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import { Episode } from "../../modules/podcasts/domain/Episode";
 import { Podcast } from "../../modules/podcasts/domain/Podcast";
 
@@ -27,4 +29,4 @@ const WebPlayerTrackDetail = ({
   );
 };
 
-export default WebPlayerTrackDetail;
+export default memo(WebPlayerTrackDetail);

@@ -32,13 +32,6 @@ export const useWebPlayer = () => {
     const calc = (value * audioRef.current.duration) / 100;
     if (isNaN(calc)) return;
     audioRef.current.currentTime = calc;
-    dispatch({
-      type: WebPlayerActionTypes.SEEK,
-      payload: {
-        ...state,
-        currentTime: value,
-      },
-    });
   };
 
   const shuffleTracks = (tracks: Episode[]) => {
@@ -56,13 +49,6 @@ export const useWebPlayer = () => {
 
   const updateTimer = useCallback(() => {
     const { duration } = audioRef.current;
-    dispatch({
-      type: WebPlayerActionTypes.SEEK,
-      payload: {
-        ...state,
-        currentTime: currentRefTime,
-      },
-    });
     setCurrentTimeCalc((currentRefTime * 100) / duration);
   }, [currentRefTime]);
 
@@ -164,6 +150,7 @@ export const useWebPlayer = () => {
   return {
     tracksPlaying,
     currentTrackIndex,
+    currentRefTime,
     currentTimeCalc,
     changeCurrentTime,
   };

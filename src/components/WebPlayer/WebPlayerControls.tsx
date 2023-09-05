@@ -21,17 +21,19 @@ import Slider from "../ui/Slider";
 const WebPlayerControls = ({
   tracksPlaying,
   currentTrackIndex,
+  currentTime,
   currentTimeCalc,
   changeCurrentTime,
 }: {
   tracksPlaying: Episode[] | undefined;
   currentTrackIndex: number;
+  currentTime: number;
   currentTimeCalc: number;
   changeCurrentTime: (value: number) => void;
 }) => {
   const state = useWebPlayerContext();
   const { currentTrackId, isPlaying } = useTrackContext();
-  const { currentTime, isLooping, isShuffling } = state;
+  const { isLooping, isShuffling } = state;
   const dispatch = useWebPlayerDispatch();
   const trackDispatcher = useTrackDispatch();
 
