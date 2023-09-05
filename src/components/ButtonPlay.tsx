@@ -26,9 +26,10 @@ const ButtonPlay = forwardRef<
   {
     onClick: () => void;
     isPlaying: boolean;
+    isLoading?: boolean;
     size?: IconSizes;
   } & ButtonHTMLAttributes<HTMLButtonElement>
->(({ onClick, isPlaying, size, ...props }, ref) => {
+>(({ onClick, isPlaying, isLoading, size, ...props }, ref) => {
   return (
     <Button
       ref={ref}
@@ -37,15 +38,24 @@ const ButtonPlay = forwardRef<
       onClick={onClick}
       className={cn(padding[size ?? IconSizes.SMALL])}
     >
-      <Icon
-        icon={isPlaying ? Icons.PAUSE : Icons.PLAY}
-        size={size ?? IconSizes.SMALL}
-        viewBox={
-          isPlaying
-            ? sizePauseViewBox[size ?? IconSizes.SMALL]
-            : sizePlayViewBox[size ?? IconSizes.SMALL]
-        }
-      />
+      {isLoading ? (
+        <Icon
+          className="fill-none stroke-current stroke-2 animate-spin"
+          icon={Icons.LOADING}
+          size={IconSizes.SMALL}
+          viewBox="0 0 24 24"
+        />
+      ) : (
+        <Icon
+          icon={isPlaying ? Icons.PAUSE : Icons.PLAY}
+          size={size ?? IconSizes.SMALL}
+          viewBox={
+            isPlaying
+              ? sizePauseViewBox[size ?? IconSizes.SMALL]
+              : sizePlayViewBox[size ?? IconSizes.SMALL]
+          }
+        />
+      )}
     </Button>
   );
 });

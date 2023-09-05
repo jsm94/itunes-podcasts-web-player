@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { ROUTES } from "../constants/app.constants";
@@ -45,8 +45,14 @@ const PodcastsDataTable = ({
 
   const { currentPodcastId, isPlaying } = state;
 
+  const [podcastLoading, setPodcastLoading] = useState("");
+
   const podcastIsPlaying = (podcast: Podcast) => {
     return podcast.id === currentPodcastId && isPlaying;
+  };
+
+  const podcastIsLoading = (podcast: Podcast) => {
+    return podcastLoading === podcast.id;
   };
 
   const handlePlay = async (podcast: Podcast) => {
@@ -64,7 +70,9 @@ const PodcastsDataTable = ({
       return;
     }
 
+    setPodcastLoading(podcast.id);
     const episodes = await getEpisodes(podcast.id as string);
+    setPodcastLoading("");
 
     dispatch({
       type: WebPlayerActionTypes.SET_TRACKS,
@@ -105,6 +113,7 @@ const PodcastsDataTable = ({
         render: (podcast: Podcast) => {
           return (
             <ButtonPlay
+              isLoading={podcastIsLoading(podcast)}
               onClick={() => handlePlay(podcast)}
               isPlaying={podcastIsPlaying(podcast)}
               aria-label={`${
@@ -141,7 +150,7 @@ const PodcastsDataTable = ({
         },
       },
     ],
-    [podcastIsPlaying]
+    [podcastIsPlaying, podcastIsLoading]
   );
 
   if (!podcasts?.length && !search) return <DataTableSkeleton />;

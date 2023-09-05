@@ -13,6 +13,7 @@ export enum Icons {
   VERIFY = "verify",
   CHEVRON_DOWN = "chevron-down",
   CLOCK = "clock",
+  LOADING = "loading",
 }
 
 export enum IconSizes {
@@ -111,6 +112,7 @@ const icons = {
       fillOpacity="0.3"
     />
   ),
+  [Icons.LOADING]: <path d="M21 12a9 9 0 1 1-6.219-8.56" />,
 };
 
 const sizesViewBox = {
