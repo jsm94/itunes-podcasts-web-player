@@ -1,4 +1,9 @@
 import {
+  TrackActionTypes,
+  useTrackContext,
+  useTrackDispatch,
+} from "../../context/TrackContext";
+import {
   WebPlayerActionTypes,
   useWebPlayerContext,
   useWebPlayerDispatch,
@@ -25,9 +30,10 @@ const WebPlayerControls = ({
   changeCurrentTime: (value: number) => void;
 }) => {
   const state = useWebPlayerContext();
-  const { currentTime, isLooping, isShuffling, isPlaying, currentTrackId } =
-    state;
+  const { currentTrackId, isPlaying } = useTrackContext();
+  const { currentTime, isLooping, isShuffling } = state;
   const dispatch = useWebPlayerDispatch();
+  const trackDispatcher = useTrackDispatch();
 
   const currentTrack = tracksPlaying?.[currentTrackIndex];
 
@@ -36,10 +42,16 @@ const WebPlayerControls = ({
       dispatch({
         type: WebPlayerActionTypes.PAUSE,
       });
+      trackDispatcher({
+        type: TrackActionTypes.PAUSE,
+      });
       return;
     }
     dispatch({
       type: WebPlayerActionTypes.PLAY,
+    });
+    trackDispatcher({
+      type: TrackActionTypes.PLAY,
     });
   };
 

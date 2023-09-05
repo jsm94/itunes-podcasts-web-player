@@ -3,6 +3,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Episode } from "../../modules/podcasts/domain/Episode";
 
 import {
+  TrackActionTypes,
+  useTrackContext,
+  useTrackDispatch,
+} from "../../context/TrackContext";
+import {
   WebPlayerActionTypes,
   useWebPlayerContext,
   useWebPlayerDispatch,
@@ -10,16 +15,10 @@ import {
 
 export const useWebPlayer = () => {
   const state = useWebPlayerContext();
-  const {
-    tracks,
-    currentTrackIndex,
-    currentTrackId,
-    isLooping,
-    isPlaying,
-    isShuffling,
-    volume,
-  } = state;
+  const { tracks, currentTrackIndex, isLooping, isShuffling, volume } = state;
   const dispatch = useWebPlayerDispatch();
+  const { currentTrackId, isPlaying } = useTrackContext();
+  const trackDispatcher = useTrackDispatch();
 
   const [currentTimeCalc, setCurrentTimeCalc] = useState<number>(0);
 
@@ -98,6 +97,13 @@ export const useWebPlayer = () => {
         type: WebPlayerActionTypes.SET_CURRENT_TRACK,
         payload: {
           ...state,
+          currentTrackId: tracksPlayingRef.current![index].id!,
+        },
+      });
+      trackDispatcher({
+        type: TrackActionTypes.SET_CURRENT_TRACK_ID,
+        payload: {
+          currentPodcastId: "",
           currentTrackId: tracksPlayingRef.current![index].id!,
         },
       });

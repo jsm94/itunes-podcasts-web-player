@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+
 import { Episode } from "../modules/podcasts/domain/Episode";
 
 import { Podcast } from "../modules/podcasts/domain/Podcast";
@@ -18,6 +19,11 @@ import {
 
 import { useOrderByContext } from "../context/OrderByContext";
 
+import {
+  TrackActionTypes,
+  useTrackContext,
+  useTrackDispatch,
+} from "../context/TrackContext";
 import ButtonPlay from "./ButtonPlay";
 import DataTable from "./DataTable";
 import { Icon, Icons } from "./Icon";
@@ -43,10 +49,10 @@ const headings = {
 
 const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
   const state = useWebPlayerContext();
+  const { currentPodcastId, currentTrackId, isPlaying } = useTrackContext();
   const dispatch = useWebPlayerDispatch();
+  const trackDispatcher = useTrackDispatch();
   const { episodesOrder } = useOrderByContext();
-
-  const { currentPodcastId, currentTrackId, isPlaying } = state;
 
   const trackIsPlaying = (episode: Episode) => {
     return episode.id === currentTrackId && isPlaying;
@@ -69,6 +75,13 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
           currentPodcastId: podcast?.id as string,
         },
       });
+      trackDispatcher({
+        type: TrackActionTypes.SET_CURRENT_PODCAST_ID,
+        payload: {
+          currentTrackId: episode.id,
+          currentPodcastId: podcast?.id as string,
+        },
+      });
 
       dispatch({
         type: WebPlayerActionTypes.SET_CURRENT_PODCAST,
@@ -83,12 +96,18 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
       dispatch({
         type: WebPlayerActionTypes.PAUSE,
       });
+      trackDispatcher({
+        type: TrackActionTypes.PAUSE,
+      });
       return;
     }
 
     if (episode.id === currentTrackId && !isPlaying) {
       dispatch({
         type: WebPlayerActionTypes.PLAY,
+      });
+      trackDispatcher({
+        type: TrackActionTypes.PLAY,
       });
       return;
     }
@@ -100,67 +119,76 @@ const EpisodesDataTable = ({ podcast, episodes }: EpisodesDataTableProps) => {
         currentTrackId: episode.id,
       },
     });
+    trackDispatcher({
+      type: TrackActionTypes.SET_CURRENT_TRACK_ID,
+      payload: {
+        currentPodcastId: podcast?.id as string,
+        currentTrackId: episode.id,
+      },
+    });
   };
 
-  const dataRenders = useMemo(
-    () => [
-      {
-        render: (episode: Episode) => {
-          return (
-            <ButtonPlay
-              onClick={() => handlePlay(episode)}
-              isPlaying={trackIsPlaying(episode)}
-              aria-label={`${
-                trackIsPlaying(episode) ? "pause" : "play"
-              } episode ${episode?.id}
+  const dataRenders = [
+    {
+      render: (episode: Episode) => {
+        return (
+          <ButtonPlay
+            onClick={() => handlePlay(episode)}
+            isPlaying={trackIsPlaying(episode)}
+            aria-label={`${
+              trackIsPlaying(episode) ? "pause" : "play"
+            } episode ${episode?.id}
               `}
-            />
-          );
-        },
+          />
+        );
       },
-      {
-        render: (episode: Episode) => {
-          return (
-            <TrackDetail
-              image={episode?.image ?? podcast!.image}
-              title={episode.title}
-              author={podcast!.author}
-            />
-          );
-        },
+    },
+    {
+      render: (episode: Episode) => {
+        return (
+          <TrackDetail
+            image={episode?.image ?? podcast!.image}
+            title={episode.title}
+            author={podcast!.author}
+          />
+        );
       },
-      {
-        render: (episode: Episode) => {
-          return (
-            <span className="line-clamp-2">
-              {parseLongUrl(episode.description)}
-            </span>
-          );
-        },
+    },
+    {
+      render: (episode: Episode) => {
+        return (
+          <span className="line-clamp-2">
+            {parseLongUrl(episode.description)}
+          </span>
+        );
       },
-      {
-        render: (episode: Episode) => {
-          return humanizeDiferenceDate(episode.releaseDate);
-        },
+    },
+    {
+      render: (episode: Episode) => {
+        return humanizeDiferenceDate(episode.releaseDate);
       },
-      {
-        render: (episode: Episode) => {
-          return msToDuration(episode.duration);
-        },
+    },
+    {
+      render: (episode: Episode) => {
+        return msToDuration(episode.duration);
       },
-    ],
-    [podcast, trackIsPlaying]
+    },
+  ];
+
+  const MemoDataTable = useMemo(
+    () => (
+      <DataTable
+        className="w-full"
+        dataset={filterTracks(episodes!, episodesOrder)}
+        options={{ headings, dataRenders }}
+      />
+    ),
+    [episodes, episodesOrder, currentTrackId, isPlaying]
   );
 
   if (!episodes) return null;
 
-  return (
-    <DataTable
-      className="w-full"
-      dataset={filterTracks(episodes, episodesOrder)}
-      options={{ headings, dataRenders }}
-    />
-  );
+  return MemoDataTable;
 };
 
 export default EpisodesDataTable;

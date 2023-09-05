@@ -22,12 +22,14 @@ import {
   OrderByActionTypes,
   useOrderByContext,
 } from "../context/OrderByContext";
+import { TrackActionTypes, useTrackDispatch } from "../context/TrackContext";
 
 const PodcastPage = () => {
   const param = useParams();
   const navigate = useNavigate();
   const state = useWebPlayerContext();
   const dispatch = useWebPlayerDispatch();
+  const trackDispatcher = useTrackDispatch();
   const { episodesOrder } = useOrderByContext();
   const { currentPodcastId, isPlaying } = state;
 
@@ -67,6 +69,14 @@ const PodcastPage = () => {
           currentPodcastId: podcast?.id as string,
         },
       });
+      trackDispatcher({
+        type: TrackActionTypes.SET_CURRENT_PODCAST_ID,
+        payload: {
+          currentPodcastId: podcast?.id as string,
+          currentTrackId: 0,
+        },
+      });
+
       dispatch({
         type: WebPlayerActionTypes.SET_CURRENT_PODCAST,
         payload: {
@@ -87,11 +97,17 @@ const PodcastPage = () => {
       dispatch({
         type: WebPlayerActionTypes.PAUSE,
       });
+      trackDispatcher({
+        type: TrackActionTypes.PAUSE,
+      });
       return;
     }
 
     dispatch({
       type: WebPlayerActionTypes.PLAY,
+    });
+    trackDispatcher({
+      type: TrackActionTypes.PLAY,
     });
   };
 

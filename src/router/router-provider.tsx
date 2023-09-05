@@ -13,6 +13,7 @@ import Home from "../pages/Home";
 import PodcastPage from "../pages/PodcastPage";
 
 import { ErrorBoundary } from "../components/ErrorBoundary";
+import { TrackProvider } from "../context/TrackContext";
 
 const router = (parentElement: React.ReactNode) =>
   createBrowserRouter([
@@ -45,11 +46,13 @@ export const withProviders = (parentElement: React.ReactNode) => {
   return (
     <StrictMode>
       <WebPlayerProvider>
-        <SearchProvider>
-          <OrderByProvider>
-            <RouterProvider router={router(parentElement)} />
-          </OrderByProvider>
-        </SearchProvider>
+        <TrackProvider>
+          <SearchProvider>
+            <OrderByProvider>
+              <RouterProvider router={router(parentElement)} />
+            </OrderByProvider>
+          </SearchProvider>
+        </TrackProvider>
       </WebPlayerProvider>
     </StrictMode>
   );
